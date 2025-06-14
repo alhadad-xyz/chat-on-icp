@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { Bot, Github, Twitter, Discord } from 'lucide-react';
+import { Bot, Github, Twitter, MessageCircle } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -20,7 +19,7 @@ const Footer = () => {
             <div className="flex space-x-4">
               <Github className="w-5 h-5 text-gray-400 hover:text-white cursor-pointer transition-colors" />
               <Twitter className="w-5 h-5 text-gray-400 hover:text-white cursor-pointer transition-colors" />
-              <Discord className="w-5 h-5 text-gray-400 hover:text-white cursor-pointer transition-colors" />
+              <MessageCircle className="w-5 h-5 text-gray-400 hover:text-white cursor-pointer transition-colors" />
             </div>
           </div>
 
