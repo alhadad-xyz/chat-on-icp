@@ -20,6 +20,17 @@ interface FormData {
   knowledgeSources: Array<{
     type: string;
     content: string;
+    metadata?: {
+      connectionString?: string;
+      queryOrTable?: string;
+      description?: string;
+      endpoint?: string;
+      apiKey?: string;
+      apiDescription?: string;
+      documentDescription?: string;
+      url?: string;
+      contentSummary?: string;
+    };
   }>;
   maxResponseLength: number;
   rememberConversation: boolean;
