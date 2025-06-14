@@ -9,7 +9,7 @@ const Profile = () => {
   return (
     <div className="min-h-screen flex w-full bg-gray-50 dark:bg-gray-900">
       <DashboardSidebar />
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col ml-64">
         <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
           <div className="flex items-center justify-between">
             <div>
