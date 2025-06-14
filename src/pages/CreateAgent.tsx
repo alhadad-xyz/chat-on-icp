@@ -23,7 +23,7 @@ const CreateAgent = () => {
     responsePattern: 'detailed',
     personalityTraits: [],
     context: '',
-    knowledgeSources: [{ type: 'Manual Text', content: '' }],
+    knowledgeSources: [{ type: 'Manual Text', content: '', metadata: {} }],
     maxResponseLength: 500,
     rememberConversation: true,
     temperature: 0.7,

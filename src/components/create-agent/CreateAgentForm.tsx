@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -22,6 +21,21 @@ interface FormData {
   knowledgeSources: Array<{
     type: string;
     content: string;
+    metadata?: {
+      // For Database Query
+      connectionString?: string;
+      queryOrTable?: string;
+      description?: string;
+      // For API Integration
+      endpoint?: string;
+      apiKey?: string;
+      apiDescription?: string;
+      // For Document Upload
+      documentDescription?: string;
+      // For Web URL
+      url?: string;
+      contentSummary?: string;
+    };
   }>;
   maxResponseLength: number;
   rememberConversation: boolean;

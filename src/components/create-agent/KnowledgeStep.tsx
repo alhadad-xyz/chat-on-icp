@@ -4,8 +4,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Plus, X } from 'lucide-react';
+import { Plus, X, Upload } from 'lucide-react';
 
 interface FormData {
   name: string;
@@ -21,6 +22,17 @@ interface FormData {
   knowledgeSources: Array<{
     type: string;
     content: string;
+    metadata?: {
+      connectionString?: string;
+      queryOrTable?: string;
+      description?: string;
+      endpoint?: string;
+      apiKey?: string;
+      apiDescription?: string;
+      documentDescription?: string;
+      url?: string;
+      contentSummary?: string;
+    };
   }>;
   maxResponseLength: number;
   rememberConversation: boolean;
@@ -52,7 +64,7 @@ const KnowledgeStep = ({ formData, setFormData }: KnowledgeStepProps) => {
   const addKnowledgeSource = () => {
     setFormData({
       ...formData,
-      knowledgeSources: [...formData.knowledgeSources, { type: 'Manual Text', content: '' }]
+      knowledgeSources: [...formData.knowledgeSources, { type: 'Manual Text', content: '', metadata: {} }]
     });
   };
 
@@ -66,6 +78,24 @@ const KnowledgeStep = ({ formData, setFormData }: KnowledgeStepProps) => {
   const updateKnowledgeSource = (index: number, field: 'type' | 'content', value: string) => {
     const updated = [...formData.knowledgeSources];
     updated[index] = { ...updated[index], [field]: value };
+    
+    // Reset metadata when type changes
+    if (field === 'type') {
+      updated[index].metadata = {};
+    }
+    
+    setFormData({
+      ...formData,
+      knowledgeSources: updated
+    });
+  };
+
+  const updateKnowledgeMetadata = (index: number, field: string, value: string) => {
+    const updated = [...formData.knowledgeSources];
+    updated[index] = {
+      ...updated[index],
+      metadata: { ...updated[index].metadata, [field]: value }
+    };
     setFormData({
       ...formData,
       knowledgeSources: updated
@@ -74,6 +104,137 @@ const KnowledgeStep = ({ formData, setFormData }: KnowledgeStepProps) => {
 
   const handleContextChange = (value: string) => {
     setFormData({ ...formData, context: value });
+  };
+
+  const renderSourceFields = (source: any, index: number) => {
+    switch (source.type) {
+      case 'Database Query':
+        return (
+          <div className="space-y-3">
+            <div>
+              <Label className="text-sm text-gray-700 dark:text-gray-300">Database Connection</Label>
+              <Input
+                placeholder="Database name or connection string"
+                value={source.metadata?.connectionString || ''}
+                onChange={(e) => updateKnowledgeMetadata(index, 'connectionString', e.target.value)}
+                className="bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm border-white/30 dark:border-gray-600/30"
+              />
+            </div>
+            <div>
+              <Label className="text-sm text-gray-700 dark:text-gray-300">Query or Table</Label>
+              <Textarea
+                placeholder="SQL query or table name"
+                value={source.metadata?.queryOrTable || ''}
+                onChange={(e) => updateKnowledgeMetadata(index, 'queryOrTable', e.target.value)}
+                className="min-h-[80px] bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm border-white/30 dark:border-gray-600/30"
+              />
+            </div>
+            <div>
+              <Label className="text-sm text-gray-700 dark:text-gray-300">Description</Label>
+              <Textarea
+                placeholder="Describe the data structure and content..."
+                value={source.metadata?.description || ''}
+                onChange={(e) => updateKnowledgeMetadata(index, 'description', e.target.value)}
+                className="min-h-[80px] bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm border-white/30 dark:border-gray-600/30"
+              />
+            </div>
+          </div>
+        );
+
+      case 'API Integration':
+        return (
+          <div className="space-y-3">
+            <div>
+              <Label className="text-sm text-gray-700 dark:text-gray-300">API Endpoint</Label>
+              <Input
+                placeholder="https://api.example.com/data"
+                value={source.metadata?.endpoint || ''}
+                onChange={(e) => updateKnowledgeMetadata(index, 'endpoint', e.target.value)}
+                className="bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm border-white/30 dark:border-gray-600/30"
+              />
+            </div>
+            <div>
+              <Label className="text-sm text-gray-700 dark:text-gray-300">API Key (Optional)</Label>
+              <Input
+                placeholder="Enter API key if required"
+                value={source.metadata?.apiKey || ''}
+                onChange={(e) => updateKnowledgeMetadata(index, 'apiKey', e.target.value)}
+                className="bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm border-white/30 dark:border-gray-600/30"
+              />
+            </div>
+            <div>
+              <Label className="text-sm text-gray-700 dark:text-gray-300">API Description</Label>
+              <Textarea
+                placeholder="Describe what data this API provides..."
+                value={source.metadata?.apiDescription || ''}
+                onChange={(e) => updateKnowledgeMetadata(index, 'apiDescription', e.target.value)}
+                className="min-h-[80px] bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm border-white/30 dark:border-gray-600/30"
+              />
+            </div>
+          </div>
+        );
+
+      case 'Document Upload':
+        return (
+          <div className="space-y-3">
+            <div>
+              <Label className="text-sm text-gray-700 dark:text-gray-300">Upload Document</Label>
+              <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center bg-white/50 dark:bg-gray-800/50">
+                <Upload className="w-8 h-8 mx-auto mb-2 text-gray-400" />
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Click to upload or drag and drop</p>
+                <p className="text-xs text-gray-500 dark:text-gray-500">PDF, TXT, DOC, DOCX, MD up to 10MB</p>
+              </div>
+            </div>
+            <div>
+              <Label className="text-sm text-gray-700 dark:text-gray-300">Document Description (Optional)</Label>
+              <Textarea
+                placeholder="Brief description of the document content..."
+                value={source.metadata?.documentDescription || ''}
+                onChange={(e) => updateKnowledgeMetadata(index, 'documentDescription', e.target.value)}
+                className="min-h-[80px] bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm border-white/30 dark:border-gray-600/30"
+              />
+            </div>
+          </div>
+        );
+
+      case 'Web URL':
+        return (
+          <div className="space-y-3">
+            <div>
+              <Label className="text-sm text-gray-700 dark:text-gray-300">Website URL</Label>
+              <Input
+                placeholder="https://example.com/article"
+                value={source.metadata?.url || ''}
+                onChange={(e) => updateKnowledgeMetadata(index, 'url', e.target.value)}
+                className="bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm border-white/30 dark:border-gray-600/30"
+              />
+            </div>
+            <div>
+              <Label className="text-sm text-gray-700 dark:text-gray-300">Content Summary</Label>
+              <Textarea
+                placeholder="Summarize the key information from this URL..."
+                value={source.metadata?.contentSummary || ''}
+                onChange={(e) => updateKnowledgeMetadata(index, 'contentSummary', e.target.value)}
+                className="min-h-[80px] bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm border-white/30 dark:border-gray-600/30"
+              />
+            </div>
+          </div>
+        );
+
+      case 'Manual Text':
+      default:
+        return (
+          <div className="space-y-2">
+            <Label className="text-sm text-gray-700 dark:text-gray-300">Knowledge Content</Label>
+            <Textarea
+              placeholder="Enter your knowledge content here..."
+              value={source.content}
+              onChange={(e) => updateKnowledgeSource(index, 'content', e.target.value)}
+              className="min-h-[100px] bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm border-white/30 dark:border-gray-600/30"
+            />
+          </div>
+        );
+    }
   };
 
   return (
@@ -119,20 +280,14 @@ const KnowledgeStep = ({ formData, setFormData }: KnowledgeStepProps) => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="Manual Text">Manual Text</SelectItem>
-                  <SelectItem value="URL">URL</SelectItem>
-                  <SelectItem value="File Upload">File Upload</SelectItem>
-                  <SelectItem value="Database">Database</SelectItem>
+                  <SelectItem value="Web URL">Web URL</SelectItem>
+                  <SelectItem value="Document Upload">Document Upload</SelectItem>
+                  <SelectItem value="API Integration">API Integration</SelectItem>
+                  <SelectItem value="Database Query">Database Query</SelectItem>
                 </SelectContent>
               </Select>
-              <div className="space-y-2">
-                <Label className="text-sm text-gray-700 dark:text-gray-300">Knowledge Content</Label>
-                <Textarea
-                  placeholder="Enter your knowledge content here..."
-                  value={source.content}
-                  onChange={(e) => updateKnowledgeSource(index, 'content', e.target.value)}
-                  className="min-h-[100px] bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm border-white/30 dark:border-gray-600/30"
-                />
-              </div>
+              
+              {renderSourceFields(source, index)}
             </div>
           ))}
           <Button
