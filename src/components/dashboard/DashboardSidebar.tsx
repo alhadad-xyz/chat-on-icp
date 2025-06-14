@@ -1,17 +1,21 @@
 
 import React from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Bot, BarChart3, Users, Plus, MessageSquare, Code, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const DashboardSidebar = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const menuItems = [
-    { icon: BarChart3, label: 'Dashboard', active: true },
-    { icon: Users, label: 'My Agents' },
-    { icon: Plus, label: 'Create Agent' },
-    { icon: MessageSquare, label: 'Chat' },
-    { icon: BarChart3, label: 'Analytics' },
-    { icon: Code, label: 'Embed Widget' },
-    { icon: User, label: 'Profile' },
+    { icon: BarChart3, label: 'Dashboard', path: '/dashboard' },
+    { icon: Users, label: 'My Agents', path: '/my-agents' },
+    { icon: Plus, label: 'Create Agent', path: '/create-agent' },
+    { icon: MessageSquare, label: 'Chat', path: '/chat' },
+    { icon: BarChart3, label: 'Analytics', path: '/analytics' },
+    { icon: Code, label: 'Embed Widget', path: '/embed' },
+    { icon: User, label: 'Profile', path: '/profile' },
   ];
 
   return (
@@ -27,20 +31,24 @@ const DashboardSidebar = () => {
         </div>
         
         <nav className="space-y-2">
-          {menuItems.map((item, index) => (
-            <Button
-              key={index}
-              variant={item.active ? "default" : "ghost"}
-              className={`w-full justify-start ${
-                item.active 
-                  ? "bg-blue-600 text-white hover:bg-blue-700" 
-                  : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
-              }`}
-            >
-              <item.icon className="w-4 h-4 mr-3" />
-              {item.label}
-            </Button>
-          ))}
+          {menuItems.map((item, index) => {
+            const isActive = location.pathname === item.path;
+            return (
+              <Button
+                key={index}
+                variant={isActive ? "default" : "ghost"}
+                className={`w-full justify-start ${
+                  isActive 
+                    ? "bg-blue-600 text-white hover:bg-blue-700" 
+                    : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                }`}
+                onClick={() => navigate(item.path)}
+              >
+                <item.icon className="w-4 h-4 mr-3" />
+                {item.label}
+              </Button>
+            );
+          })}
         </nav>
       </div>
     </aside>
