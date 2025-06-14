@@ -16,6 +16,8 @@ interface FormData {
   knowledgeSources: string[];
   maxResponseLength: number;
   rememberConversation: boolean;
+  welcomeMessage: string;
+  theme: string;
 }
 
 interface KnowledgeStepProps {
