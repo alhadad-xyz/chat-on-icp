@@ -4,18 +4,43 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Textarea } from '@/components/ui/textarea';
+import { Slider } from '@/components/ui/slider';
 
 interface FormData {
   name: string;
   description: string;
+  category: string;
+  visibility: 'private' | 'public';
   tone: string;
   style: string;
+  communicationStyle: string;
+  responsePattern: string;
+  personalityTraits: string[];
   context: string;
-  knowledgeSources: string[];
+  knowledgeSources: Array<{
+    type: string;
+    content: string;
+  }>;
   maxResponseLength: number;
   rememberConversation: boolean;
+  temperature: number;
+  creativity: number;
+  topP: number;
+  contextWindow: number;
+  maxTokens: number;
+  frequencyPenalty: number;
+  presencePenalty: number;
+  systemPromptTemplate: string;
   welcomeMessage: string;
   theme: string;
+  primaryColor: string;
+  secondaryColor: string;
+  accentColor: string;
+  borderRadius: string;
+  fontFamily: string;
+  fontSize: string;
+  customCSS: string;
 }
 
 interface BehaviorStepProps {
@@ -30,6 +55,14 @@ const BehaviorStep = ({ formData, setFormData }: BehaviorStepProps) => {
 
   const handleRememberConversationChange = (checked: boolean) => {
     setFormData({ ...formData, rememberConversation: checked });
+  };
+
+  const handleSliderChange = (field: keyof FormData, value: number[]) => {
+    setFormData({ ...formData, [field]: value[0] });
+  };
+
+  const handleInputChange = (field: keyof FormData, value: string | number) => {
+    setFormData({ ...formData, [field]: value });
   };
 
   return (
@@ -67,21 +100,137 @@ const BehaviorStep = ({ formData, setFormData }: BehaviorStepProps) => {
           </Label>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="space-y-2">
-            <Label className="text-gray-700 dark:text-gray-300">Response Speed</Label>
-            <div className="bg-white/50 dark:bg-gray-700/50 p-4 rounded-lg border border-white/30 dark:border-gray-600/30">
-              <div className="text-sm text-gray-600 dark:text-gray-400">Fast</div>
-              <div className="text-xs text-gray-500 dark:text-gray-500">Optimized for quick responses</div>
+        <div className="space-y-6">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Advanced Settings</h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-3">
+              <Label className="text-gray-700 dark:text-gray-300">
+                Temperature
+                <span className="text-sm text-gray-500 ml-2">({formData.temperature.toFixed(1)})</span>
+              </Label>
+              <Slider
+                value={[formData.temperature]}
+                onValueChange={(value) => handleSliderChange('temperature', value)}
+                max={1}
+                min={0}
+                step={0.1}
+                className="w-full"
+              />
+              <div className="flex justify-between text-xs text-gray-500">
+                <span>Focused (0.0)</span>
+                <span>Creative (1.0)</span>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <Label className="text-gray-700 dark:text-gray-300">
+                Creativity
+                <span className="text-sm text-gray-500 ml-2">({formData.creativity.toFixed(1)})</span>
+              </Label>
+              <Slider
+                value={[formData.creativity]}
+                onValueChange={(value) => handleSliderChange('creativity', value)}
+                max={1}
+                min={0}
+                step={0.1}
+                className="w-full"
+              />
+              <div className="flex justify-between text-xs text-gray-500">
+                <span>Conservative (0.0)</span>
+                <span>Creative (1.0)</span>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <Label className="text-gray-700 dark:text-gray-300">
+                Top P
+                <span className="text-sm text-gray-500 ml-2">({formData.topP.toFixed(1)})</span>
+              </Label>
+              <Slider
+                value={[formData.topP]}
+                onValueChange={(value) => handleSliderChange('topP', value)}
+                max={1}
+                min={0}
+                step={0.1}
+                className="w-full"
+              />
+              <div className="flex justify-between text-xs text-gray-500">
+                <span>0.0</span>
+                <span>1.0</span>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="context-window" className="text-gray-700 dark:text-gray-300">Context Window</Label>
+              <Input
+                id="context-window"
+                type="number"
+                value={formData.contextWindow}
+                onChange={(e) => handleInputChange('contextWindow', parseInt(e.target.value) || 4096)}
+                className="bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm border-white/30 dark:border-gray-600/30"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="max-tokens" className="text-gray-700 dark:text-gray-300">Max Tokens</Label>
+              <Input
+                id="max-tokens"
+                type="number"
+                value={formData.maxTokens}
+                onChange={(e) => handleInputChange('maxTokens', parseInt(e.target.value) || 1000)}
+                className="bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm border-white/30 dark:border-gray-600/30"
+              />
+            </div>
+
+            <div className="space-y-3">
+              <Label className="text-gray-700 dark:text-gray-300">
+                Frequency Penalty
+                <span className="text-sm text-gray-500 ml-2">({formData.frequencyPenalty.toFixed(1)})</span>
+              </Label>
+              <Slider
+                value={[formData.frequencyPenalty]}
+                onValueChange={(value) => handleSliderChange('frequencyPenalty', value)}
+                max={2}
+                min={-2}
+                step={0.1}
+                className="w-full"
+              />
+              <div className="flex justify-between text-xs text-gray-500">
+                <span>-2.0</span>
+                <span>2.0</span>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <Label className="text-gray-700 dark:text-gray-300">
+                Presence Penalty
+                <span className="text-sm text-gray-500 ml-2">({formData.presencePenalty.toFixed(1)})</span>
+              </Label>
+              <Slider
+                value={[formData.presencePenalty]}
+                onValueChange={(value) => handleSliderChange('presencePenalty', value)}
+                max={2}
+                min={-2}
+                step={0.1}
+                className="w-full"
+              />
+              <div className="flex justify-between text-xs text-gray-500">
+                <span>-2.0</span>
+                <span>2.0</span>
+              </div>
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label className="text-gray-700 dark:text-gray-300">Learning Mode</Label>
-            <div className="bg-white/50 dark:bg-gray-700/50 p-4 rounded-lg border border-white/30 dark:border-gray-600/30">
-              <div className="text-sm text-gray-600 dark:text-gray-400">Adaptive</div>
-              <div className="text-xs text-gray-500 dark:text-gray-500">Learns from interactions</div>
-            </div>
+            <Label htmlFor="system-prompt" className="text-gray-700 dark:text-gray-300">System Prompt Template</Label>
+            <Textarea
+              id="system-prompt"
+              placeholder="You are a helpful AI assistant."
+              value={formData.systemPromptTemplate}
+              onChange={(e) => handleInputChange('systemPromptTemplate', e.target.value)}
+              className="min-h-[100px] bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm border-white/30 dark:border-gray-600/30"
+            />
           </div>
         </div>
       </CardContent>

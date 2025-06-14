@@ -11,14 +11,37 @@ import AppearanceStep from './AppearanceStep';
 interface FormData {
   name: string;
   description: string;
+  category: string;
+  visibility: 'private' | 'public';
   tone: string;
   style: string;
+  communicationStyle: string;
+  responsePattern: string;
+  personalityTraits: string[];
   context: string;
-  knowledgeSources: string[];
+  knowledgeSources: Array<{
+    type: string;
+    content: string;
+  }>;
   maxResponseLength: number;
   rememberConversation: boolean;
+  temperature: number;
+  creativity: number;
+  topP: number;
+  contextWindow: number;
+  maxTokens: number;
+  frequencyPenalty: number;
+  presencePenalty: number;
+  systemPromptTemplate: string;
   welcomeMessage: string;
   theme: string;
+  primaryColor: string;
+  secondaryColor: string;
+  accentColor: string;
+  borderRadius: string;
+  fontFamily: string;
+  fontSize: string;
+  customCSS: string;
 }
 
 interface CreateAgentFormProps {

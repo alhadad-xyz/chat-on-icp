@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
@@ -8,14 +8,37 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 interface FormData {
   name: string;
   description: string;
+  category: string;
+  visibility: 'private' | 'public';
   tone: string;
   style: string;
+  communicationStyle: string;
+  responsePattern: string;
+  personalityTraits: string[];
   context: string;
-  knowledgeSources: string[];
+  knowledgeSources: Array<{
+    type: string;
+    content: string;
+  }>;
   maxResponseLength: number;
   rememberConversation: boolean;
+  temperature: number;
+  creativity: number;
+  topP: number;
+  contextWindow: number;
+  maxTokens: number;
+  frequencyPenalty: number;
+  presencePenalty: number;
+  systemPromptTemplate: string;
   welcomeMessage: string;
   theme: string;
+  primaryColor: string;
+  secondaryColor: string;
+  accentColor: string;
+  borderRadius: string;
+  fontFamily: string;
+  fontSize: string;
+  customCSS: string;
 }
 
 interface PersonalityStepProps {
@@ -24,27 +47,21 @@ interface PersonalityStepProps {
 }
 
 const PersonalityStep = ({ formData, setFormData }: PersonalityStepProps) => {
-  const [selectedTraits, setSelectedTraits] = useState<string[]>([]);
-
   const personalityTraits = [
     'helpful', 'professional', 'friendly', 'enthusiastic',
     'patient', 'knowledgeable', 'empathetic', 'concise'
   ];
 
   const toggleTrait = (trait: string) => {
-    setSelectedTraits(prev => 
-      prev.includes(trait) 
-        ? prev.filter(t => t !== trait)
-        : [...prev, trait]
-    );
+    const updatedTraits = formData.personalityTraits.includes(trait)
+      ? formData.personalityTraits.filter(t => t !== trait)
+      : [...formData.personalityTraits, trait];
+    
+    setFormData({ ...formData, personalityTraits: updatedTraits });
   };
 
-  const handleToneChange = (value: string) => {
-    setFormData({ ...formData, tone: value });
-  };
-
-  const handleStyleChange = (value: string) => {
-    setFormData({ ...formData, style: value });
+  const handleSelectChange = (field: keyof FormData, value: string) => {
+    setFormData({ ...formData, [field]: value });
   };
 
   return (
@@ -62,11 +79,11 @@ const PersonalityStep = ({ formData, setFormData }: PersonalityStepProps) => {
               {personalityTraits.map((trait) => (
                 <Button
                   key={trait}
-                  variant={selectedTraits.includes(trait) ? "default" : "outline"}
+                  variant={formData.personalityTraits.includes(trait) ? "default" : "outline"}
                   size="sm"
                   onClick={() => toggleTrait(trait)}
                   className={`${
-                    selectedTraits.includes(trait)
+                    formData.personalityTraits.includes(trait)
                       ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white'
                       : 'bg-white/50 dark:bg-gray-700/50 border-white/30 dark:border-gray-600/30'
                   }`}
@@ -80,7 +97,7 @@ const PersonalityStep = ({ formData, setFormData }: PersonalityStepProps) => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <Label className="text-gray-700 dark:text-gray-300">Tone</Label>
-              <Select value={formData.tone} onValueChange={handleToneChange}>
+              <Select value={formData.tone} onValueChange={(value) => handleSelectChange('tone', value)}>
                 <SelectTrigger className="bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm border-white/30 dark:border-gray-600/30">
                   <SelectValue />
                 </SelectTrigger>
@@ -95,7 +112,7 @@ const PersonalityStep = ({ formData, setFormData }: PersonalityStepProps) => {
 
             <div className="space-y-2">
               <Label className="text-gray-700 dark:text-gray-300">Response Style</Label>
-              <Select value={formData.style} onValueChange={handleStyleChange}>
+              <Select value={formData.style} onValueChange={(value) => handleSelectChange('style', value)}>
                 <SelectTrigger className="bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm border-white/30 dark:border-gray-600/30">
                   <SelectValue />
                 </SelectTrigger>
@@ -103,6 +120,36 @@ const PersonalityStep = ({ formData, setFormData }: PersonalityStepProps) => {
                   <SelectItem value="helpful">Helpful</SelectItem>
                   <SelectItem value="detailed">Detailed</SelectItem>
                   <SelectItem value="concise">Concise</SelectItem>
+                  <SelectItem value="conversational">Conversational</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label className="text-gray-700 dark:text-gray-300">Communication Style</Label>
+              <Select value={formData.communicationStyle} onValueChange={(value) => handleSelectChange('communicationStyle', value)}>
+                <SelectTrigger className="bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm border-white/30 dark:border-gray-600/30">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="professional">Professional</SelectItem>
+                  <SelectItem value="casual">Casual</SelectItem>
+                  <SelectItem value="technical">Technical</SelectItem>
+                  <SelectItem value="simplified">Simplified</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label className="text-gray-700 dark:text-gray-300">Response Pattern</Label>
+              <Select value={formData.responsePattern} onValueChange={(value) => handleSelectChange('responsePattern', value)}>
+                <SelectTrigger className="bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm border-white/30 dark:border-gray-600/30">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="detailed">Detailed</SelectItem>
+                  <SelectItem value="concise">Concise</SelectItem>
+                  <SelectItem value="structured">Structured</SelectItem>
                   <SelectItem value="conversational">Conversational</SelectItem>
                 </SelectContent>
               </Select>

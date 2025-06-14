@@ -15,14 +15,34 @@ const CreateAgent = () => {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
+    category: 'general',
+    visibility: 'private' as 'private' | 'public',
     tone: 'professional',
     style: 'helpful',
+    communicationStyle: 'professional',
+    responsePattern: 'detailed',
+    personalityTraits: [],
     context: '',
-    knowledgeSources: [''],
+    knowledgeSources: [{ type: 'Manual Text', content: '' }],
     maxResponseLength: 500,
     rememberConversation: true,
+    temperature: 0.7,
+    creativity: 0.8,
+    topP: 0.9,
+    contextWindow: 4096,
+    maxTokens: 1000,
+    frequencyPenalty: 0.0,
+    presencePenalty: 0.0,
+    systemPromptTemplate: 'You are a helpful AI assistant.',
     welcomeMessage: 'Hello! How can I help you today?',
-    theme: 'professional-blue'
+    theme: 'professional-blue',
+    primaryColor: '#3B82F6',
+    secondaryColor: '#EFF6FF',
+    accentColor: '#3B82F6',
+    borderRadius: 'rounded (8px)',
+    fontFamily: 'Inter (Modern)',
+    fontSize: 'Medium (14px)',
+    customCSS: ''
   });
 
   const handleShowPreview = () => {

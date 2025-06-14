@@ -4,18 +4,42 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 interface FormData {
   name: string;
   description: string;
+  category: string;
+  visibility: 'private' | 'public';
   tone: string;
   style: string;
+  communicationStyle: string;
+  responsePattern: string;
+  personalityTraits: string[];
   context: string;
-  knowledgeSources: string[];
+  knowledgeSources: Array<{
+    type: string;
+    content: string;
+  }>;
   maxResponseLength: number;
   rememberConversation: boolean;
+  temperature: number;
+  creativity: number;
+  topP: number;
+  contextWindow: number;
+  maxTokens: number;
+  frequencyPenalty: number;
+  presencePenalty: number;
+  systemPromptTemplate: string;
   welcomeMessage: string;
   theme: string;
+  primaryColor: string;
+  secondaryColor: string;
+  accentColor: string;
+  borderRadius: string;
+  fontFamily: string;
+  fontSize: string;
+  customCSS: string;
 }
 
 interface BasicInfoStepProps {
@@ -58,6 +82,51 @@ const BasicInfoStep = ({ formData, setFormData }: BasicInfoStepProps) => {
             onChange={(e) => handleChange('description', e.target.value)}
             className="min-h-[120px] bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm border-white/30 dark:border-gray-600/30"
           />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="category" className="text-gray-700 dark:text-gray-300">Category</Label>
+          <Select value={formData.category} onValueChange={(value) => handleChange('category', value)}>
+            <SelectTrigger className="bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm border-white/30 dark:border-gray-600/30">
+              <SelectValue placeholder="Select a category" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="general">General</SelectItem>
+              <SelectItem value="customer-support">Customer Support</SelectItem>
+              <SelectItem value="sales">Sales</SelectItem>
+              <SelectItem value="education">Education</SelectItem>
+              <SelectItem value="healthcare">Healthcare</SelectItem>
+              <SelectItem value="finance">Finance</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="space-y-3">
+          <Label className="text-gray-700 dark:text-gray-300">Visibility</Label>
+          <div className="flex items-center space-x-6">
+            <label className="flex items-center space-x-2 cursor-pointer">
+              <input
+                type="radio"
+                name="visibility"
+                value="private"
+                checked={formData.visibility === 'private'}
+                onChange={(e) => handleChange('visibility', e.target.value)}
+                className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+              />
+              <span className="text-sm text-gray-700 dark:text-gray-300">Private (Only you can access)</span>
+            </label>
+            <label className="flex items-center space-x-2 cursor-pointer">
+              <input
+                type="radio"
+                name="visibility"
+                value="public"
+                checked={formData.visibility === 'public'}
+                onChange={(e) => handleChange('visibility', e.target.value)}
+                className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+              />
+              <span className="text-sm text-gray-700 dark:text-gray-300">Public (Anyone can access)</span>
+            </label>
+          </div>
         </div>
       </CardContent>
     </Card>
