@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import BasicInfoStep from './BasicInfoStep';
@@ -24,10 +24,21 @@ interface FormData {
 interface CreateAgentFormProps {
   formData: FormData;
   setFormData: (data: FormData) => void;
+  lastActiveStep: string;
+  setLastActiveStep: (step: string) => void;
 }
 
-const CreateAgentForm = ({ formData, setFormData }: CreateAgentFormProps) => {
-  const [activeTab, setActiveTab] = useState('basic-info');
+const CreateAgentForm = ({ formData, setFormData, lastActiveStep, setLastActiveStep }: CreateAgentFormProps) => {
+  const [activeTab, setActiveTab] = useState(lastActiveStep);
+
+  useEffect(() => {
+    setActiveTab(lastActiveStep);
+  }, [lastActiveStep]);
+
+  const handleTabChange = (newTab: string) => {
+    setActiveTab(newTab);
+    setLastActiveStep(newTab);
+  };
 
   const steps = [
     { id: 'basic-info', label: 'Basic Info', component: BasicInfoStep },
@@ -47,7 +58,7 @@ const CreateAgentForm = ({ formData, setFormData }: CreateAgentFormProps) => {
               {steps.map((step) => (
                 <button
                   key={step.id}
-                  onClick={() => setActiveTab(step.id)}
+                  onClick={() => handleTabChange(step.id)}
                   className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-200 ${
                     activeTab === step.id
                       ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg'
@@ -64,7 +75,7 @@ const CreateAgentForm = ({ formData, setFormData }: CreateAgentFormProps) => {
 
       {/* Form Content */}
       <div className="lg:col-span-3">
-        <Tabs value={activeTab} onValueChange={setActiveTab}>
+        <Tabs value={activeTab} onValueChange={handleTabChange}>
           {steps.map((step) => (
             <TabsContent key={step.id} value={step.id}>
               <step.component formData={formData} setFormData={setFormData} />

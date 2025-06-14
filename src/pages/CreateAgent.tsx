@@ -11,6 +11,7 @@ import { ArrowLeft, Eye, ArrowRight } from 'lucide-react';
 const CreateAgent = () => {
   const navigate = useNavigate();
   const [showPreview, setShowPreview] = useState(false);
+  const [lastActiveStep, setLastActiveStep] = useState('basic-info');
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -23,6 +24,14 @@ const CreateAgent = () => {
     welcomeMessage: 'Hello! How can I help you today?',
     theme: 'professional-blue'
   });
+
+  const handleShowPreview = () => {
+    setShowPreview(true);
+  };
+
+  const handleBackToForm = () => {
+    setShowPreview(false);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/20 dark:from-gray-900 dark:via-blue-900/10 dark:to-purple-900/10 flex w-full">
@@ -53,7 +62,7 @@ const CreateAgent = () => {
                   <Button 
                     variant="outline" 
                     className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-lg border-white/20 dark:border-gray-700/50"
-                    onClick={() => setShowPreview(!showPreview)}
+                    onClick={showPreview ? handleBackToForm : handleShowPreview}
                   >
                     {showPreview ? (
                       <>
@@ -79,7 +88,12 @@ const CreateAgent = () => {
             {showPreview ? (
               <AgentPreview formData={formData} />
             ) : (
-              <CreateAgentForm formData={formData} setFormData={setFormData} />
+              <CreateAgentForm 
+                formData={formData} 
+                setFormData={setFormData}
+                lastActiveStep={lastActiveStep}
+                setLastActiveStep={setLastActiveStep}
+              />
             )}
           </div>
         </main>
