@@ -10,7 +10,7 @@ const Chat = () => {
   return (
     <div className="min-h-screen flex w-full bg-gray-50 dark:bg-gray-900">
       <DashboardSidebar />
-      <div className="flex-1 flex">
+      <div className="flex-1 flex ml-64">
         <ChatSidebar 
           selectedAgent={selectedAgent}
           onSelectAgent={setSelectedAgent}

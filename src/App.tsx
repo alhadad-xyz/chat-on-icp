@@ -11,6 +11,7 @@ import Dashboard from "./pages/Dashboard";
 import CreateAgent from "./pages/CreateAgent";
 import MyAgents from "./pages/MyAgents";
 import Chat from "./pages/Chat";
+import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -29,6 +30,7 @@ const App: React.FC = () => {
               <Route path="/create-agent" element={<CreateAgent />} />
               <Route path="/my-agents" element={<MyAgents />} />
               <Route path="/chat" element={<Chat />} />
+              <Route path="/profile" element={<Profile />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

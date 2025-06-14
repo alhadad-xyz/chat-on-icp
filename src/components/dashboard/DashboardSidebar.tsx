@@ -19,8 +19,8 @@ const DashboardSidebar = () => {
   ];
 
   return (
-    <aside className="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 h-screen">
-      <div className="p-6">
+    <aside className="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 h-screen fixed left-0 top-0 z-40">
+      <div className="p-6 h-full overflow-y-auto">
         <div className="flex items-center space-x-2 mb-8">
           <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
             <Bot className="w-5 h-5 text-white" />
