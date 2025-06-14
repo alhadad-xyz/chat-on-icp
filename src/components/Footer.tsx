@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Bot, Github, Twitter, MessageCircle } from 'lucide-react';
 
@@ -11,7 +12,7 @@ const Footer = () => {
               <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
                 <Bot className="w-5 h-5 text-white" />
               </div>
-              <span className="text-xl font-bold">CanistChat</span>
+              <span className="text-xl font-bold">NeoChat</span>
             </div>
             <p className="text-gray-400 mb-4">
               Deploy AI agents on the Internet Computer Protocol. Decentralized, secure, and powerful.
@@ -55,7 +56,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-          <p>&copy; 2024 CanistChat. All rights reserved. Built on Internet Computer Protocol.</p>
+          <p>&copy; 2024 NeoChat. All rights reserved. Built on Internet Computer Protocol.</p>
         </div>
       </div>
     </footer>

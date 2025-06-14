@@ -32,11 +32,11 @@ const Hero = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-lg px-8 py-3">
+            <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-lg px-8 py-6">
               Create Your Agent
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
-            <Button variant="outline" className="text-lg px-8 py-3 border-gray-300 hover:border-blue-400">
+            <Button variant="outline" className="text-lg px-8 py-6 border-gray-300 hover:border-blue-400">
               Watch Demo
             </Button>
           </div>

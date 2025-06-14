@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Bot, Code, Database, Globe, Lock, TrendingUp } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
 
 const Features = () => {
   const features = [
@@ -59,16 +60,15 @@ const Features = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-xl p-6 border border-gray-200 hover:border-blue-300 hover:shadow-lg transition-all duration-300 group"
-            >
-              <div className={`w-12 h-12 bg-gradient-to-br ${feature.gradient} rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                <feature.icon className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
-              <p className="text-gray-600 leading-relaxed">{feature.description}</p>
-            </div>
+            <Card key={index} className="border border-gray-200 hover:border-blue-300 hover:shadow-lg transition-all duration-300 group">
+              <CardContent className="p-6">
+                <div className={`w-12 h-12 bg-gradient-to-br ${feature.gradient} rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                  <feature.icon className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
+                <p className="text-gray-600 leading-relaxed">{feature.description}</p>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </div>

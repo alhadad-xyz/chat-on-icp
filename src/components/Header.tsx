@@ -18,7 +18,7 @@ const Header = ({ isMenuOpen, setIsMenuOpen }: HeaderProps) => {
               <Bot className="w-5 h-5 text-white" />
             </div>
             <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              CanistChat
+              NeoChat
             </span>
           </div>
 
@@ -37,12 +37,14 @@ const Header = ({ isMenuOpen, setIsMenuOpen }: HeaderProps) => {
             </Button>
           </nav>
 
-          <button
+          <Button
+            variant="ghost"
+            size="icon"
             className="md:hidden"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+          </Button>
         </div>
 
         {isMenuOpen && (
