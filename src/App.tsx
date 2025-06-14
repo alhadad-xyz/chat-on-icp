@@ -8,6 +8,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import CreateAgent from "./pages/CreateAgent";
+import MyAgents from "./pages/MyAgents";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,6 +24,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/create-agent" element={<CreateAgent />} />
+            <Route path="/my-agents" element={<MyAgents />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
