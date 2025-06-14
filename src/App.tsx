@@ -13,6 +13,7 @@ import MyAgents from "./pages/MyAgents";
 import Chat from "./pages/Chat";
 import Profile from "./pages/Profile";
 import EmbedWidget from "./pages/EmbedWidget";
+import Analytics from "./pages/Analytics";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -33,6 +34,7 @@ const App: React.FC = () => {
               <Route path="/chat" element={<Chat />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/embed" element={<EmbedWidget />} />
+              <Route path="/analytics" element={<Analytics />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
