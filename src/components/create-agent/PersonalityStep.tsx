@@ -5,7 +5,23 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
-const PersonalityStep = () => {
+interface FormData {
+  name: string;
+  description: string;
+  tone: string;
+  style: string;
+  context: string;
+  knowledgeSources: string[];
+  maxResponseLength: number;
+  rememberConversation: boolean;
+}
+
+interface PersonalityStepProps {
+  formData: FormData;
+  setFormData: (data: FormData) => void;
+}
+
+const PersonalityStep = ({ formData, setFormData }: PersonalityStepProps) => {
   const [selectedTraits, setSelectedTraits] = useState<string[]>([]);
 
   const personalityTraits = [
@@ -19,6 +35,14 @@ const PersonalityStep = () => {
         ? prev.filter(t => t !== trait)
         : [...prev, trait]
     );
+  };
+
+  const handleToneChange = (value: string) => {
+    setFormData({ ...formData, tone: value });
+  };
+
+  const handleStyleChange = (value: string) => {
+    setFormData({ ...formData, style: value });
   };
 
   return (
@@ -54,7 +78,7 @@ const PersonalityStep = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <Label className="text-gray-700 dark:text-gray-300">Tone</Label>
-              <Select defaultValue="professional">
+              <Select value={formData.tone} onValueChange={handleToneChange}>
                 <SelectTrigger className="bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm border-white/30 dark:border-gray-600/30">
                   <SelectValue />
                 </SelectTrigger>
@@ -69,7 +93,7 @@ const PersonalityStep = () => {
 
             <div className="space-y-2">
               <Label className="text-gray-700 dark:text-gray-300">Response Style</Label>
-              <Select defaultValue="helpful">
+              <Select value={formData.style} onValueChange={handleStyleChange}>
                 <SelectTrigger className="bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm border-white/30 dark:border-gray-600/30">
                   <SelectValue />
                 </SelectTrigger>

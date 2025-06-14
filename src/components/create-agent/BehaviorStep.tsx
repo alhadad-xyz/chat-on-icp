@@ -5,7 +5,31 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 
-const BehaviorStep = () => {
+interface FormData {
+  name: string;
+  description: string;
+  tone: string;
+  style: string;
+  context: string;
+  knowledgeSources: string[];
+  maxResponseLength: number;
+  rememberConversation: boolean;
+}
+
+interface BehaviorStepProps {
+  formData: FormData;
+  setFormData: (data: FormData) => void;
+}
+
+const BehaviorStep = ({ formData, setFormData }: BehaviorStepProps) => {
+  const handleMaxResponseChange = (value: string) => {
+    setFormData({ ...formData, maxResponseLength: parseInt(value) || 500 });
+  };
+
+  const handleRememberConversationChange = (checked: boolean) => {
+    setFormData({ ...formData, rememberConversation: checked });
+  };
+
   return (
     <Card className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-lg border border-white/20 dark:border-gray-700/50 shadow-xl">
       <CardHeader>
@@ -19,7 +43,8 @@ const BehaviorStep = () => {
           <Input
             id="max-response"
             type="number"
-            defaultValue="500"
+            value={formData.maxResponseLength}
+            onChange={(e) => handleMaxResponseChange(e.target.value)}
             placeholder="500"
             className="bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm border-white/30 dark:border-gray-600/30"
           />
@@ -28,7 +53,8 @@ const BehaviorStep = () => {
         <div className="flex items-center space-x-2">
           <Checkbox
             id="remember-conversation"
-            defaultChecked
+            checked={formData.rememberConversation}
+            onCheckedChange={handleRememberConversationChange}
             className="border-white/30 dark:border-gray-600/30"
           />
           <Label

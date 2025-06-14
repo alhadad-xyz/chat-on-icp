@@ -4,8 +4,26 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 
-const AppearanceStep = () => {
-  const [selectedTheme, setSelectedTheme] = useState('professional-blue');
+interface FormData {
+  name: string;
+  description: string;
+  tone: string;
+  style: string;
+  context: string;
+  knowledgeSources: string[];
+  maxResponseLength: number;
+  rememberConversation: boolean;
+  welcomeMessage?: string;
+  theme?: string;
+}
+
+interface AppearanceStepProps {
+  formData: FormData;
+  setFormData: (data: FormData) => void;
+}
+
+const AppearanceStep = ({ formData, setFormData }: AppearanceStepProps) => {
+  const [selectedTheme, setSelectedTheme] = useState(formData.theme || 'professional-blue');
 
   const themes = [
     {
@@ -34,6 +52,15 @@ const AppearanceStep = () => {
     }
   ];
 
+  const handleThemeChange = (themeId: string) => {
+    setSelectedTheme(themeId);
+    setFormData({ ...formData, theme: themeId });
+  };
+
+  const handleWelcomeMessageChange = (value: string) => {
+    setFormData({ ...formData, welcomeMessage: value });
+  };
+
   return (
     <Card className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-lg border border-white/20 dark:border-gray-700/50 shadow-xl">
       <CardHeader>
@@ -46,7 +73,7 @@ const AppearanceStep = () => {
             {themes.map((theme) => (
               <button
                 key={theme.id}
-                onClick={() => setSelectedTheme(theme.id)}
+                onClick={() => handleThemeChange(theme.id)}
                 className={`p-4 rounded-lg border transition-all ${
                   selectedTheme === theme.id
                     ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
@@ -72,7 +99,8 @@ const AppearanceStep = () => {
           <Textarea
             id="welcome-message"
             placeholder="Hello! How can I help you today?"
-            defaultValue="Hello! How can I help you today?"
+            value={formData.welcomeMessage || "Hello! How can I help you today?"}
+            onChange={(e) => handleWelcomeMessageChange(e.target.value)}
             className="min-h-[100px] bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm border-white/30 dark:border-gray-600/30"
           />
         </div>
@@ -82,12 +110,14 @@ const AppearanceStep = () => {
           <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
             <div className="flex items-start space-x-3">
               <div className={`w-8 h-8 ${themes.find(t => t.id === selectedTheme)?.color} rounded-full flex items-center justify-center`}>
-                <span className="text-white text-sm font-medium">A</span>
+                <span className="text-white text-sm font-medium">
+                  {formData.name ? formData.name.charAt(0).toUpperCase() : 'A'}
+                </span>
               </div>
               <div className="flex-1">
                 <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-3">
                   <p className="text-sm text-gray-900 dark:text-white">
-                    Hello! How can I help you today?
+                    {formData.welcomeMessage || "Hello! How can I help you today?"}
                   </p>
                 </div>
               </div>

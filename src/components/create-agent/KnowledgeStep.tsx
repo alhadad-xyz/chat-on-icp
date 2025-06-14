@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
@@ -7,21 +7,48 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Plus, X } from 'lucide-react';
 
-const KnowledgeStep = () => {
-  const [knowledgeSources, setKnowledgeSources] = useState<string[]>(['']);
+interface FormData {
+  name: string;
+  description: string;
+  tone: string;
+  style: string;
+  context: string;
+  knowledgeSources: string[];
+  maxResponseLength: number;
+  rememberConversation: boolean;
+}
 
+interface KnowledgeStepProps {
+  formData: FormData;
+  setFormData: (data: FormData) => void;
+}
+
+const KnowledgeStep = ({ formData, setFormData }: KnowledgeStepProps) => {
   const addKnowledgeSource = () => {
-    setKnowledgeSources([...knowledgeSources, '']);
+    setFormData({
+      ...formData,
+      knowledgeSources: [...formData.knowledgeSources, '']
+    });
   };
 
   const removeKnowledgeSource = (index: number) => {
-    setKnowledgeSources(knowledgeSources.filter((_, i) => i !== index));
+    setFormData({
+      ...formData,
+      knowledgeSources: formData.knowledgeSources.filter((_, i) => i !== index)
+    });
   };
 
   const updateKnowledgeSource = (index: number, value: string) => {
-    const updated = [...knowledgeSources];
+    const updated = [...formData.knowledgeSources];
     updated[index] = value;
-    setKnowledgeSources(updated);
+    setFormData({
+      ...formData,
+      knowledgeSources: updated
+    });
+  };
+
+  const handleContextChange = (value: string) => {
+    setFormData({ ...formData, context: value });
   };
 
   return (
@@ -35,13 +62,15 @@ const KnowledgeStep = () => {
           <Textarea
             id="context"
             placeholder="Provide background context for your agent..."
+            value={formData.context}
+            onChange={(e) => handleContextChange(e.target.value)}
             className="min-h-[120px] bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm border-white/30 dark:border-gray-600/30"
           />
         </div>
 
         <div className="space-y-4">
           <Label className="text-gray-700 dark:text-gray-300">Knowledge Sources</Label>
-          {knowledgeSources.map((source, index) => (
+          {formData.knowledgeSources.map((source, index) => (
             <div key={index} className="flex items-center space-x-3">
               <Input
                 placeholder="Add a knowledge source URL"
@@ -49,7 +78,7 @@ const KnowledgeStep = () => {
                 onChange={(e) => updateKnowledgeSource(index, e.target.value)}
                 className="flex-1 bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm border-white/30 dark:border-gray-600/30"
               />
-              {knowledgeSources.length > 1 && (
+              {formData.knowledgeSources.length > 1 && (
                 <Button
                   variant="outline"
                   size="icon"

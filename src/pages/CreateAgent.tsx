@@ -19,7 +19,9 @@ const CreateAgent = () => {
     context: '',
     knowledgeSources: [''],
     maxResponseLength: 500,
-    rememberConversation: true
+    rememberConversation: true,
+    welcomeMessage: 'Hello! How can I help you today?',
+    theme: 'professional-blue'
   });
 
   return (
