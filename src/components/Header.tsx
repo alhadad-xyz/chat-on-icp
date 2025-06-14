@@ -2,6 +2,7 @@
 import React from 'react';
 import { Bot, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 import ThemeToggle from './ThemeToggle';
 
 interface HeaderProps {
@@ -10,6 +11,12 @@ interface HeaderProps {
 }
 
 const Header = ({ isMenuOpen, setIsMenuOpen }: HeaderProps) => {
+  const navigate = useNavigate();
+
+  const handleLaunchApp = () => {
+    navigate('/dashboard');
+  };
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-white/70 dark:bg-black/70 border-b border-white/20 dark:border-white/10">
       <div className="container mx-auto px-4 py-4">
@@ -34,7 +41,10 @@ const Header = ({ isMenuOpen, setIsMenuOpen }: HeaderProps) => {
               Pricing
             </a>
             <ThemeToggle />
-            <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg backdrop-blur-sm">
+            <Button 
+              onClick={handleLaunchApp}
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg backdrop-blur-sm"
+            >
               Launch App
             </Button>
           </nav>
@@ -64,7 +74,10 @@ const Header = ({ isMenuOpen, setIsMenuOpen }: HeaderProps) => {
               <a href="#pricing" className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                 Pricing
               </a>
-              <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 w-full shadow-lg">
+              <Button 
+                onClick={handleLaunchApp}
+                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 w-full shadow-lg"
+              >
                 Launch App
               </Button>
             </nav>
