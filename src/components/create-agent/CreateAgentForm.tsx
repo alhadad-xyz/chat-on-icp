@@ -8,7 +8,23 @@ import KnowledgeStep from './KnowledgeStep';
 import BehaviorStep from './BehaviorStep';
 import AppearanceStep from './AppearanceStep';
 
-const CreateAgentForm = () => {
+interface FormData {
+  name: string;
+  description: string;
+  tone: string;
+  style: string;
+  context: string;
+  knowledgeSources: string[];
+  maxResponseLength: number;
+  rememberConversation: boolean;
+}
+
+interface CreateAgentFormProps {
+  formData: FormData;
+  setFormData: (data: FormData) => void;
+}
+
+const CreateAgentForm = ({ formData, setFormData }: CreateAgentFormProps) => {
   const [activeTab, setActiveTab] = useState('basic-info');
 
   const steps = [
@@ -37,9 +53,6 @@ const CreateAgentForm = () => {
                   }`}
                 >
                   {step.label}
-                  {activeTab === step.id && (
-                    <span className="ml-2 text-red-400">*</span>
-                  )}
                 </button>
               ))}
             </nav>
@@ -52,7 +65,7 @@ const CreateAgentForm = () => {
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           {steps.map((step) => (
             <TabsContent key={step.id} value={step.id}>
-              <step.component />
+              <step.component formData={formData} setFormData={setFormData} />
             </TabsContent>
           ))}
         </Tabs>
