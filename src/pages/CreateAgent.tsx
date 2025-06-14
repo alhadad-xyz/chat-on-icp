@@ -4,11 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import DashboardHeader from '@/components/dashboard/DashboardHeader';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
 import CreateAgentForm from '@/components/create-agent/CreateAgentForm';
+import AgentPreview from '@/components/create-agent/AgentPreview';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 
 const CreateAgent = () => {
   const navigate = useNavigate();
+  const [showPreview, setShowPreview] = useState(false);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/20 dark:from-gray-900 dark:via-blue-900/10 dark:to-purple-900/10 flex w-full">
@@ -36,7 +38,11 @@ const CreateAgent = () => {
                   </p>
                 </div>
                 <div className="flex space-x-3">
-                  <Button variant="outline" className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-lg border-white/20 dark:border-gray-700/50">
+                  <Button 
+                    variant="outline" 
+                    className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-lg border-white/20 dark:border-gray-700/50"
+                    onClick={() => setShowPreview(true)}
+                  >
                     Preview
                   </Button>
                   <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg">
@@ -50,6 +56,13 @@ const CreateAgent = () => {
           </div>
         </main>
       </div>
+
+      {showPreview && (
+        <AgentPreview 
+          isOpen={showPreview} 
+          onClose={() => setShowPreview(false)} 
+        />
+      )}
     </div>
   );
 };
