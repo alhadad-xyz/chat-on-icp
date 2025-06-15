@@ -8,11 +8,58 @@ import AgentPreview from '@/components/create-agent/AgentPreview';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Eye, ArrowRight } from 'lucide-react';
 
+interface FormData {
+  name: string;
+  description: string;
+  category: string;
+  visibility: 'private' | 'public';
+  tone: string;
+  style: string;
+  communicationStyle: string;
+  responsePattern: string;
+  personalityTraits: string[];
+  context: string;
+  knowledgeSources: Array<{
+    type: string;
+    content: string;
+    metadata?: {
+      connectionString?: string;
+      queryOrTable?: string;
+      description?: string;
+      endpoint?: string;
+      apiKey?: string;
+      apiDescription?: string;
+      documentDescription?: string;
+      url?: string;
+      contentSummary?: string;
+    };
+  }>;
+  maxResponseLength: number;
+  rememberConversation: boolean;
+  temperature: number;
+  creativity: number;
+  topP: number;
+  contextWindow: number;
+  maxTokens: number;
+  frequencyPenalty: number;
+  presencePenalty: number;
+  systemPromptTemplate: string;
+  welcomeMessage: string;
+  theme: string;
+  primaryColor: string;
+  secondaryColor: string;
+  accentColor: string;
+  borderRadius: string;
+  fontFamily: string;
+  fontSize: string;
+  customCSS: string;
+}
+
 const CreateAgent = () => {
   const navigate = useNavigate();
   const [showPreview, setShowPreview] = useState(false);
   const [lastActiveStep, setLastActiveStep] = useState('basic-info');
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: '',
     description: '',
     category: 'general',
@@ -23,7 +70,7 @@ const CreateAgent = () => {
     responsePattern: 'detailed',
     personalityTraits: [],
     context: '',
-    knowledgeSources: [{ type: 'Manual Text', content: '', metadata: {} }],
+    knowledgeSources: [{ type: 'Manual Text', content: '' }],
     maxResponseLength: 500,
     rememberConversation: true,
     temperature: 0.7,
