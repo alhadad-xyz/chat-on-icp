@@ -8,7 +8,7 @@ import AgentPreview from '@/components/create-agent/AgentPreview';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Eye, ArrowRight } from 'lucide-react';
 
-interface AgentFormData {
+export interface AgentFormData {
   name: string;
   description: string;
   category: string;

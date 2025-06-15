@@ -7,53 +7,7 @@ import PersonalityStep from './PersonalityStep';
 import KnowledgeStep from './KnowledgeStep';
 import BehaviorStep from './BehaviorStep';
 import AppearanceStep from './AppearanceStep';
-
-interface AgentFormData {
-  name: string;
-  description: string;
-  category: string;
-  visibility: 'private' | 'public';
-  tone: string;
-  style: string;
-  communicationStyle: string;
-  responsePattern: string;
-  personalityTraits: string[];
-  context: string;
-  knowledgeSources: Array<{
-    type: string;
-    content: string;
-    metadata?: {
-      connectionString?: string;
-      queryOrTable?: string;
-      description?: string;
-      endpoint?: string;
-      apiKey?: string;
-      apiDescription?: string;
-      documentDescription?: string;
-      url?: string;
-      contentSummary?: string;
-    };
-  }>;
-  maxResponseLength: number;
-  rememberConversation: boolean;
-  temperature: number;
-  creativity: number;
-  topP: number;
-  contextWindow: number;
-  maxTokens: number;
-  frequencyPenalty: number;
-  presencePenalty: number;
-  systemPromptTemplate: string;
-  welcomeMessage: string;
-  theme: string;
-  primaryColor: string;
-  secondaryColor: string;
-  accentColor: string;
-  borderRadius: string;
-  fontFamily: string;
-  fontSize: string;
-  customCSS: string;
-}
+import { AgentFormData } from '@/pages/CreateAgent';
 
 interface CreateAgentFormProps {
   formData: AgentFormData;
