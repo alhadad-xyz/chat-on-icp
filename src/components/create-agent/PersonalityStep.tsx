@@ -1,11 +1,10 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
-interface FormData {
+interface AgentFormData {
   name: string;
   description: string;
   category: string;
@@ -19,6 +18,17 @@ interface FormData {
   knowledgeSources: Array<{
     type: string;
     content: string;
+    metadata?: {
+      connectionString?: string;
+      queryOrTable?: string;
+      description?: string;
+      endpoint?: string;
+      apiKey?: string;
+      apiDescription?: string;
+      documentDescription?: string;
+      url?: string;
+      contentSummary?: string;
+    };
   }>;
   maxResponseLength: number;
   rememberConversation: boolean;
@@ -42,8 +52,8 @@ interface FormData {
 }
 
 interface PersonalityStepProps {
-  formData: FormData;
-  setFormData: (data: FormData) => void;
+  formData: AgentFormData;
+  setFormData: (data: AgentFormData) => void;
 }
 
 const PersonalityStep = ({ formData, setFormData }: PersonalityStepProps) => {
@@ -60,7 +70,7 @@ const PersonalityStep = ({ formData, setFormData }: PersonalityStepProps) => {
     setFormData({ ...formData, personalityTraits: updatedTraits });
   };
 
-  const handleSelectChange = (field: keyof FormData, value: string) => {
+  const handleSelectChange = (field: keyof AgentFormData, value: string) => {
     setFormData({ ...formData, [field]: value });
   };
 

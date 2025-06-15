@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
@@ -8,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Plus, X, Upload } from 'lucide-react';
 
-interface FormData {
+interface AgentFormData {
   name: string;
   description: string;
   category: string;
@@ -56,8 +55,8 @@ interface FormData {
 }
 
 interface KnowledgeStepProps {
-  formData: FormData;
-  setFormData: (data: FormData) => void;
+  formData: AgentFormData;
+  setFormData: (data: AgentFormData) => void;
 }
 
 const KnowledgeStep = ({ formData, setFormData }: KnowledgeStepProps) => {

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -6,7 +5,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
-interface FormData {
+interface AgentFormData {
   name: string;
   description: string;
   category: string;
@@ -54,12 +53,12 @@ interface FormData {
 }
 
 interface BasicInfoStepProps {
-  formData: FormData;
-  setFormData: (data: FormData) => void;
+  formData: AgentFormData;
+  setFormData: (data: AgentFormData) => void;
 }
 
 const BasicInfoStep = ({ formData, setFormData }: BasicInfoStepProps) => {
-  const handleChange = (field: keyof FormData, value: string) => {
+  const handleChange = (field: keyof AgentFormData, value: string) => {
     setFormData({ ...formData, [field]: value });
   };
 
