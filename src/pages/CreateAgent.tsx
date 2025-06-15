@@ -59,7 +59,7 @@ const CreateAgent = () => {
   const navigate = useNavigate();
   const [showPreview, setShowPreview] = useState(false);
   const [lastActiveStep, setLastActiveStep] = useState('basic-info');
-  const [formData, setFormData] = useState<AgentFormData>({
+  const [agentFormData, setAgentFormData] = useState<AgentFormData>({
     name: '',
     description: '',
     category: 'general',
@@ -153,11 +153,11 @@ const CreateAgent = () => {
             </div>
             
             {showPreview ? (
-              <AgentPreview formData={formData} />
+              <AgentPreview formData={agentFormData} />
             ) : (
               <CreateAgentForm 
-                formData={formData} 
-                setFormData={setFormData}
+                formData={agentFormData} 
+                setFormData={setAgentFormData}
                 lastActiveStep={lastActiveStep}
                 setLastActiveStep={setLastActiveStep}
               />
