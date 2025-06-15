@@ -3,7 +3,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Bot, MoreVertical, Play, Pause, Edit, Trash2 } from 'lucide-react';
+import { Bot, MoreVertical, Play, Pause, Edit, Trash2, Eye } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -58,25 +58,8 @@ const AgentCard = ({ agent }: AgentCardProps) => {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem>
-                {isActive ? (
-                  <>
-                    <Pause className="w-4 h-4 mr-2" />
-                    Deactivate
-                  </>
-                ) : (
-                  <>
-                    <Play className="w-4 h-4 mr-2" />
-                    Activate
-                  </>
-                )}
-              </DropdownMenuItem>
-              <DropdownMenuItem>
                 <Edit className="w-4 h-4 mr-2" />
                 Edit
-              </DropdownMenuItem>
-              <DropdownMenuItem className="text-red-600 dark:text-red-400">
-                <Trash2 className="w-4 h-4 mr-2" />
-                Delete
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -98,12 +81,47 @@ const AgentCard = ({ agent }: AgentCardProps) => {
           ))}
         </div>
 
-        <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
+        <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700 mb-4">
           <span className="text-xs text-gray-500 dark:text-gray-400">
             Created {agent.createdDate}
           </span>
-          <Button size="sm" variant="outline" className="text-xs">
-            View Details
+        </div>
+
+        <div className="flex gap-2 justify-between">
+          <Button size="sm" variant="outline" className="flex-1 text-xs">
+            <Eye className="w-3 h-3 mr-1" />
+            View
+          </Button>
+          
+          <Button 
+            size="sm" 
+            variant="outline" 
+            className={`flex-1 text-xs ${
+              isActive 
+                ? "text-orange-600 hover:text-orange-700 hover:bg-orange-50" 
+                : "text-green-600 hover:text-green-700 hover:bg-green-50"
+            }`}
+          >
+            {isActive ? (
+              <>
+                <Pause className="w-3 h-3 mr-1" />
+                Pause
+              </>
+            ) : (
+              <>
+                <Play className="w-3 h-3 mr-1" />
+                Activate
+              </>
+            )}
+          </Button>
+          
+          <Button 
+            size="sm" 
+            variant="outline" 
+            className="flex-1 text-xs text-red-600 hover:text-red-700 hover:bg-red-50"
+          >
+            <Trash2 className="w-3 h-3 mr-1" />
+            Delete
           </Button>
         </div>
       </CardContent>
