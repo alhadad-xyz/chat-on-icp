@@ -8,7 +8,7 @@ import AgentPreview from '@/components/create-agent/AgentPreview';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Eye, ArrowRight } from 'lucide-react';
 
-interface FormData {
+interface AgentFormData {
   name: string;
   description: string;
   category: string;
@@ -59,7 +59,7 @@ const CreateAgent = () => {
   const navigate = useNavigate();
   const [showPreview, setShowPreview] = useState(false);
   const [lastActiveStep, setLastActiveStep] = useState('basic-info');
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<AgentFormData>({
     name: '',
     description: '',
     category: 'general',

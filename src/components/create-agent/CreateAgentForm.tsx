@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -7,7 +8,7 @@ import KnowledgeStep from './KnowledgeStep';
 import BehaviorStep from './BehaviorStep';
 import AppearanceStep from './AppearanceStep';
 
-interface FormData {
+interface AgentFormData {
   name: string;
   description: string;
   category: string;
@@ -22,17 +23,13 @@ interface FormData {
     type: string;
     content: string;
     metadata?: {
-      // For Database Query
       connectionString?: string;
       queryOrTable?: string;
       description?: string;
-      // For API Integration
       endpoint?: string;
       apiKey?: string;
       apiDescription?: string;
-      // For Document Upload
       documentDescription?: string;
-      // For Web URL
       url?: string;
       contentSummary?: string;
     };
@@ -59,8 +56,8 @@ interface FormData {
 }
 
 interface CreateAgentFormProps {
-  formData: FormData;
-  setFormData: (data: FormData) => void;
+  formData: AgentFormData;
+  setFormData: (data: AgentFormData) => void;
   lastActiveStep: string;
   setLastActiveStep: (step: string) => void;
 }
