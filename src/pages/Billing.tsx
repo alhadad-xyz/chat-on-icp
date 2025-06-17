@@ -9,13 +9,13 @@ import { Progress } from '@/components/ui/progress';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { CreditCard, RefreshCw, Search } from 'lucide-react';
+import { CreditCard, RefreshCw, Search, DollarSign, Activity, TrendingUp, Users, Calendar, CheckCircle, Clock, XCircle } from 'lucide-react';
 
 const Billing = () => {
   const [activeTab, setActiveTab] = useState('overview');
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/20 dark:from-gray-900 dark:via-blue-900/10 dark:to-purple-900/10 flex w-full">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex w-full">
       <DashboardSidebar />
       <div className="flex-1 flex flex-col ml-64">
         <DashboardHeader />
@@ -23,18 +23,19 @@ const Billing = () => {
           <div className="mb-8">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-3">
-                  Payment Management
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                  Billing & Payments
                 </h1>
-                <p className="text-lg text-gray-600 dark:text-gray-400">
-                  Manage your balance, payments, and subscription plans
+                <p className="text-gray-600 dark:text-gray-400">
+                  Manage your subscription, balance, and payment history
                 </p>
               </div>
               <div className="flex items-center space-x-4">
-                <Button variant="outline" className="bg-white/60 dark:bg-gray-800/60">
+                <Badge variant="secondary" className="px-3 py-1">
                   Free Plan
-                </Button>
-                <Button className="bg-gradient-to-r from-blue-600 to-purple-600">
+                </Badge>
+                <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+                  <DollarSign className="w-4 h-4 mr-2" />
                   Add Balance
                 </Button>
               </div>
@@ -42,196 +43,219 @@ const Billing = () => {
           </div>
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-            <TabsList className="grid w-full grid-cols-4 lg:w-auto lg:grid-cols-4">
+            <TabsList className="grid w-full grid-cols-4">
               <TabsTrigger value="overview" className="flex items-center space-x-2">
-                <span>📊</span>
+                <Activity className="w-4 h-4" />
                 <span>Overview</span>
               </TabsTrigger>
               <TabsTrigger value="add-balance" className="flex items-center space-x-2">
-                <span>💳</span>
+                <DollarSign className="w-4 h-4" />
                 <span>Add Balance</span>
               </TabsTrigger>
               <TabsTrigger value="transactions" className="flex items-center space-x-2">
-                <span>📋</span>
+                <Clock className="w-4 h-4" />
                 <span>Transactions</span>
               </TabsTrigger>
               <TabsTrigger value="plans" className="flex items-center space-x-2">
-                <span>🎯</span>
+                <TrendingUp className="w-4 h-4" />
                 <span>Plans</span>
               </TabsTrigger>
             </TabsList>
 
             <TabsContent value="overview" className="space-y-6">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <Card className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-lg border-white/20 dark:border-gray-700/50">
-                  <CardHeader className="flex flex-row items-center justify-between">
-                    <CardTitle className="text-lg font-semibold">Account Balance</CardTitle>
-                    <Button variant="ghost" size="icon">
-                      <RefreshCw className="w-4 h-4" />
-                    </Button>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div>
-                      <div className="text-sm text-gray-600 dark:text-gray-400">Current Balance</div>
-                      <div className="text-3xl font-bold">$0.00</div>
-                      <div className="text-sm text-gray-500">Available for usage and overage charges</div>
-                    </div>
-                    <div>
-                      <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">Monthly Usage</div>
-                      <div className="flex justify-between text-sm mb-1">
-                        <span>0 / 100 messages</span>
-                        <span>0%</span>
+              {/* Stats Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <Card className="bg-white dark:bg-gray-800">
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Current Balance</p>
+                        <p className="text-2xl font-bold text-gray-900 dark:text-white">$0.00</p>
                       </div>
-                      <Progress value={0} className="h-2" />
-                    </div>
-                    <div className="space-y-2">
-                      <div className="text-sm font-medium">Plan Features</div>
-                      <div className="grid grid-cols-2 gap-4 text-sm">
-                        <div className="flex items-center space-x-2">
-                          <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                          <span>Basic Chat</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                          <span>Standard Response</span>
-                        </div>
+                      <div className="w-12 h-12 bg-green-100 dark:bg-green-900/20 rounded-lg flex items-center justify-center">
+                        <DollarSign className="w-6 h-6 text-green-600 dark:text-green-400" />
                       </div>
-                      <div className="grid grid-cols-2 gap-4 text-sm">
-                        <div>Support Level: Community</div>
-                        <div>AI Models: 1 available</div>
+                    </div>
+                  </CardContent>
+                </Card>
+                
+                <Card className="bg-white dark:bg-gray-800">
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm font-medium text-gray-600 dark:text-gray-400">This Month</p>
+                        <p className="text-2xl font-bold text-gray-900 dark:text-white">45</p>
+                        <p className="text-xs text-gray-500">messages used</p>
+                      </div>
+                      <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/20 rounded-lg flex items-center justify-center">
+                        <Activity className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                       </div>
                     </div>
                   </CardContent>
                 </Card>
 
-                <Card className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-lg border-white/20 dark:border-gray-700/50">
-                  <CardHeader>
-                    <CardTitle className="text-lg font-semibold">Current Plan</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="flex items-center space-x-2">
-                      <Badge variant="secondary">Free Tier</Badge>
-                      <span className="text-sm text-gray-600 dark:text-gray-400">$0.00/month</span>
+                <Card className="bg-white dark:bg-gray-800">
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Spent</p>
+                        <p className="text-2xl font-bold text-gray-900 dark:text-white">$12.50</p>
+                      </div>
+                      <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/20 rounded-lg flex items-center justify-center">
+                        <TrendingUp className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+                      </div>
                     </div>
-                    <div className="text-sm text-gray-500">Last updated: Invalid Date</div>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-white dark:bg-gray-800">
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Active Agents</p>
+                        <p className="text-2xl font-bold text-gray-900 dark:text-white">3</p>
+                      </div>
+                      <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900/20 rounded-lg flex items-center justify-center">
+                        <Users className="w-6 h-6 text-orange-600 dark:text-orange-400" />
+                      </div>
+                    </div>
                   </CardContent>
                 </Card>
               </div>
 
+              {/* Usage and Plan Info */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <Card className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-lg border-white/20 dark:border-gray-700/50">
+                <Card className="bg-white dark:bg-gray-800">
                   <CardHeader>
-                    <CardTitle className="text-lg font-semibold">Quick Actions</CardTitle>
+                    <CardTitle className="flex items-center space-x-2">
+                      <Activity className="w-5 h-5" />
+                      <span>Usage Overview</span>
+                    </CardTitle>
                   </CardHeader>
-                  <CardContent className="space-y-3">
-                    <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700">
-                      💳 Add Balance
-                    </Button>
-                    <Button className="w-full bg-gradient-to-r from-purple-600 to-purple-700">
-                      ⭐ Upgrade Plan
-                    </Button>
-                    <Button variant="outline" className="w-full">
-                      📊 View Transactions
-                    </Button>
+                  <CardContent className="space-y-4">
+                    <div>
+                      <div className="flex justify-between text-sm mb-2">
+                        <span className="text-gray-600 dark:text-gray-400">Messages this month</span>
+                        <span className="font-medium">45 / 100</span>
+                      </div>
+                      <Progress value={45} className="h-2" />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                      <div>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">Agents Created</p>
+                        <p className="text-xl font-semibold text-gray-900 dark:text-white">3 / 3</p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">Storage Used</p>
+                        <p className="text-xl font-semibold text-gray-900 dark:text-white">45MB / 100MB</p>
+                      </div>
+                    </div>
                   </CardContent>
                 </Card>
 
-                <Card className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-lg border-white/20 dark:border-gray-700/50">
+                <Card className="bg-white dark:bg-gray-800">
                   <CardHeader>
-                    <CardTitle className="text-lg font-semibold">Usage Summary</CardTitle>
+                    <CardTitle className="flex items-center space-x-2">
+                      <CreditCard className="w-5 h-5" />
+                      <span>Current Plan</span>
+                    </CardTitle>
                   </CardHeader>
-                  <CardContent className="space-y-3">
-                    <div className="flex justify-between">
-                      <span className="text-sm">This Month</span>
-                      <span className="font-semibold">45 messages</span>
+                  <CardContent className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Community</h3>
+                        <p className="text-gray-600 dark:text-gray-400">Free Tier</p>
+                      </div>
+                      <Badge className="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300">
+                        Active
+                      </Badge>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-sm">Last Month</span>
-                      <span className="font-semibold">78 messages</span>
+                    <div className="space-y-2">
+                      <div className="flex items-center space-x-2 text-sm">
+                        <CheckCircle className="w-4 h-4 text-green-500" />
+                        <span>100 messages/month</span>
+                      </div>
+                      <div className="flex items-center space-x-2 text-sm">
+                        <CheckCircle className="w-4 h-4 text-green-500" />
+                        <span>Basic AI models</span>
+                      </div>
+                      <div className="flex items-center space-x-2 text-sm">
+                        <CheckCircle className="w-4 h-4 text-green-500" />
+                        <span>Community support</span>
+                      </div>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-sm">Total Spent</span>
-                      <span className="font-semibold">$12.50</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-sm">Avg. per Message</span>
-                      <span className="font-semibold">$0.10</span>
-                    </div>
+                    <Button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700">
+                      Upgrade Plan
+                    </Button>
                   </CardContent>
                 </Card>
               </div>
             </TabsContent>
 
             <TabsContent value="add-balance" className="space-y-6">
-              <Card className="max-w-md mx-auto bg-white/60 dark:bg-gray-800/60 backdrop-blur-lg border-white/20 dark:border-gray-700/50">
-                <CardHeader className="text-center">
-                  <div className="flex items-center justify-center space-x-2 mb-4">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span className="text-sm text-green-600">Secure SSL Encrypted</span>
-                    <span className="text-xs text-gray-500">PCI DSS Compliant</span>
-                  </div>
-                  <div className="flex items-center justify-center space-x-8 mb-6">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">1</div>
-                      <span className="text-sm font-medium">Amount</span>
+              <div className="max-w-md mx-auto">
+                <Card className="bg-white dark:bg-gray-800">
+                  <CardHeader className="text-center">
+                    <div className="flex items-center justify-center space-x-2 mb-4">
+                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                      <span className="text-sm text-green-600 dark:text-green-400">Secure Payment</span>
                     </div>
-                    <div className="flex items-center space-x-2 opacity-50">
-                      <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-white font-bold">2</div>
-                      <span className="text-sm">Method</span>
+                    <CardTitle className="text-xl font-semibold">Add Balance</CardTitle>
+                    <p className="text-gray-600 dark:text-gray-400">Choose an amount to add to your account</p>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <div>
+                      <label className="text-sm font-medium mb-2 block">Amount (USD)</label>
+                      <div className="relative">
+                        <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                        <Input 
+                          type="number" 
+                          placeholder="0.00" 
+                          className="pl-10 text-lg font-semibold"
+                          step="0.01"
+                        />
+                      </div>
                     </div>
-                    <div className="flex items-center space-x-2 opacity-50">
-                      <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-white font-bold">3</div>
-                      <span className="text-sm">Details</span>
+                    <div className="grid grid-cols-3 gap-3">
+                      <Button variant="outline" size="sm">$25</Button>
+                      <Button variant="outline" size="sm">$50</Button>
+                      <Button variant="outline" size="sm">$100</Button>
                     </div>
-                    <div className="flex items-center space-x-2 opacity-50">
-                      <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-white font-bold">4</div>
-                      <span className="text-sm">Confirm</span>
+                    <div className="space-y-3">
+                      <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+                        Continue to Payment
+                      </Button>
+                      <p className="text-xs text-gray-500 text-center">
+                        Payments are processed securely via Stripe
+                      </p>
                     </div>
-                  </div>
-                  <CardTitle className="text-xl font-semibold">Add Balance</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div>
-                    <label className="text-sm font-medium mb-2 block">Amount (USD)</label>
-                    <div className="relative">
-                      <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
-                      <Input 
-                        type="number" 
-                        placeholder="0.00" 
-                        className="pl-8 text-lg font-semibold"
-                        step="0.01"
-                      />
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-3 gap-3">
-                    <Button variant="outline" size="sm">$25</Button>
-                    <Button variant="outline" size="sm">$50</Button>
-                    <Button variant="outline" size="sm">$100</Button>
-                  </div>
-                  <div className="flex space-x-3">
-                    <Button variant="outline" className="flex-1">Cancel</Button>
-                    <Button className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700">Next</Button>
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              </div>
             </TabsContent>
 
             <TabsContent value="transactions" className="space-y-6">
-              <Card className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-lg border-white/20 dark:border-gray-700/50">
-                <CardHeader className="flex flex-row items-center justify-between">
-                  <CardTitle className="text-lg font-semibold">Transaction History</CardTitle>
-                  <Button variant="ghost" size="icon">
-                    <RefreshCw className="w-4 h-4" />
-                  </Button>
+              <Card className="bg-white dark:bg-gray-800">
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="flex items-center space-x-2">
+                      <Clock className="w-5 h-5" />
+                      <span>Transaction History</span>
+                    </CardTitle>
+                    <Button variant="outline" size="sm">
+                      <RefreshCw className="w-4 h-4 mr-2" />
+                      Refresh
+                    </Button>
+                  </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                    <Input placeholder="Search transactions..." className="pl-10" />
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="flex flex-col md:flex-row gap-4">
+                    <div className="relative flex-1">
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                      <Input placeholder="Search transactions..." className="pl-10" />
+                    </div>
                     <Select defaultValue="all-types">
-                      <SelectTrigger>
+                      <SelectTrigger className="w-full md:w-48">
                         <SelectValue placeholder="Type" />
                       </SelectTrigger>
                       <SelectContent>
@@ -240,58 +264,44 @@ const Billing = () => {
                         <SelectItem value="usage">Usage Charge</SelectItem>
                       </SelectContent>
                     </Select>
-                    <Select defaultValue="all-status">
-                      <SelectTrigger>
-                        <SelectValue placeholder="Status" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="all-status">All Status</SelectItem>
-                        <SelectItem value="completed">Completed</SelectItem>
-                        <SelectItem value="pending">Pending</SelectItem>
-                        <SelectItem value="failed">Failed</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <Select defaultValue="last-30">
-                      <SelectTrigger>
-                        <SelectValue placeholder="Date Range" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="last-30">Last 30 Days</SelectItem>
-                        <SelectItem value="last-90">Last 90 Days</SelectItem>
-                        <SelectItem value="this-year">This Year</SelectItem>
-                      </SelectContent>
-                    </Select>
                   </div>
-                  <div className="text-sm text-gray-500 text-right">2 transactions found</div>
+                  
                   <div className="space-y-3">
-                    <div className="flex items-center justify-between p-4 bg-white/40 dark:bg-gray-700/40 rounded-lg">
+                    <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
                       <div className="flex items-center space-x-4">
-                        <div className="w-10 h-10 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg flex items-center justify-center">
-                          <CreditCard className="w-5 h-5 text-yellow-600" />
+                        <div className="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                          <DollarSign className="w-5 h-5 text-green-600" />
                         </div>
                         <div>
-                          <div className="font-medium">Balance top-up</div>
+                          <div className="font-medium text-gray-900 dark:text-white">Balance top-up</div>
                           <div className="text-sm text-gray-500">Jun 16, 2025, 03:34 PM • ID: pay_001</div>
                         </div>
                       </div>
-                      <div className="flex items-center space-x-2">
-                        <Badge className="bg-green-100 text-green-700">completed</Badge>
+                      <div className="flex items-center space-x-3">
+                        <Badge className="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300">
+                          <CheckCircle className="w-3 h-3 mr-1" />
+                          Completed
+                        </Badge>
                         <span className="font-semibold text-green-600">+$25.00</span>
                       </div>
                     </div>
-                    <div className="flex items-center justify-between p-4 bg-white/40 dark:bg-gray-700/40 rounded-lg">
+                    
+                    <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
                       <div className="flex items-center space-x-4">
-                        <div className="w-10 h-10 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg flex items-center justify-center">
-                          <CreditCard className="w-5 h-5 text-yellow-600" />
+                        <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+                          <Activity className="w-5 h-5 text-blue-600" />
                         </div>
                         <div>
-                          <div className="font-medium">Balance top-up</div>
-                          <div className="text-sm text-gray-500">Jun 15, 2025, 03:34 PM • ID: pay_002</div>
+                          <div className="font-medium text-gray-900 dark:text-white">Usage charge</div>
+                          <div className="text-sm text-gray-500">Jun 15, 2025, 02:15 PM • ID: charge_002</div>
                         </div>
                       </div>
-                      <div className="flex items-center space-x-2">
-                        <Badge className="bg-green-100 text-green-700">completed</Badge>
-                        <span className="font-semibold text-green-600">+$50.00</span>
+                      <div className="flex items-center space-x-3">
+                        <Badge className="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300">
+                          <CheckCircle className="w-3 h-3 mr-1" />
+                          Completed
+                        </Badge>
+                        <span className="font-semibold text-red-600">-$2.50</span>
                       </div>
                     </div>
                   </div>
@@ -301,37 +311,33 @@ const Billing = () => {
 
             <TabsContent value="plans" className="space-y-6">
               <div className="text-center mb-8">
-                <h2 className="text-2xl font-bold mb-2">Choose Your Plan</h2>
-                <p className="text-gray-600 dark:text-gray-400">Select the perfect plan for your needs. Upgrade or downgrade anytime.</p>
-                <div className="flex items-center justify-center space-x-4 mt-6">
-                  <span className="text-sm">Monthly</span>
-                  <Button variant="outline" size="sm">Yearly</Button>
-                  <Badge className="bg-purple-100 text-purple-700">Most Popular</Badge>
-                </div>
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Choose Your Plan</h2>
+                <p className="text-gray-600 dark:text-gray-400">Select the perfect plan for your needs</p>
               </div>
+              
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {/* Community Free Plan */}
-                <Card className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-lg border-blue-200 dark:border-blue-700/50 border-2">
+                {/* Community Plan */}
+                <Card className="bg-white dark:bg-gray-800 border-2 border-blue-200 dark:border-blue-700">
                   <CardHeader className="text-center">
-                    <div className="mb-2">
-                      <Badge className="bg-blue-100 text-blue-700">Current Plan</Badge>
-                    </div>
+                    <Badge className="bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 mb-2">
+                      Current Plan
+                    </Badge>
                     <CardTitle>Community</CardTitle>
-                    <div className="text-2xl font-bold">Free</div>
-                    <p className="text-sm text-gray-600">Perfect for trying out CanistChat and small personal projects.</p>
+                    <div className="text-2xl font-bold text-gray-900 dark:text-white">Free</div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Perfect for trying out NeoChat</p>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="space-y-2 text-sm">
                       <div className="flex items-center space-x-2">
-                        <span className="w-4 h-4 text-green-500">✓</span>
+                        <CheckCircle className="w-4 h-4 text-green-500" />
                         <span>100 messages per month</span>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <span className="w-4 h-4 text-green-500">✓</span>
+                        <CheckCircle className="w-4 h-4 text-green-500" />
                         <span>Basic AI models</span>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <span className="w-4 h-4 text-green-500">✓</span>
+                        <CheckCircle className="w-4 h-4 text-green-500" />
                         <span>Community support</span>
                       </div>
                     </div>
@@ -340,63 +346,57 @@ const Billing = () => {
                 </Card>
 
                 {/* Pro Plan */}
-                <Card className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-lg border-purple-200 dark:border-purple-700/50 border-2 relative">
+                <Card className="bg-white dark:bg-gray-800 border-2 border-purple-200 dark:border-purple-700 relative">
                   <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
                     <Badge className="bg-purple-600 text-white">Most Popular</Badge>
                   </div>
                   <CardHeader className="text-center">
                     <CardTitle>Pro</CardTitle>
-                    <div className="text-2xl font-bold">$29.99</div>
-                    <div className="text-sm text-gray-600">/month</div>
-                    <p className="text-sm text-gray-600">Perfect for growing businesses and teams that need advanced features.</p>
+                    <div className="text-2xl font-bold text-gray-900 dark:text-white">$29.99</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400">/month</div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Perfect for growing businesses</p>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="space-y-2 text-sm">
                       <div className="flex items-center space-x-2">
-                        <span className="w-4 h-4 text-green-500">✓</span>
+                        <CheckCircle className="w-4 h-4 text-green-500" />
                         <span>5,000 messages per month</span>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <span className="w-4 h-4 text-green-500">✓</span>
+                        <CheckCircle className="w-4 h-4 text-green-500" />
                         <span>Premium AI models</span>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <span className="w-4 h-4 text-green-500">✓</span>
+                        <CheckCircle className="w-4 h-4 text-green-500" />
                         <span>Priority support</span>
                       </div>
-                      <div className="flex items-center space-x-2">
-                        <span className="w-4 h-4 text-green-500">✓</span>
-                        <span>API access</span>
-                      </div>
                     </div>
-                    <Button className="w-full bg-gradient-to-r from-purple-600 to-purple-700">Upgrade to Pro</Button>
+                    <Button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700">
+                      Upgrade to Pro
+                    </Button>
                   </CardContent>
                 </Card>
 
                 {/* Enterprise Plan */}
-                <Card className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-lg border-white/20 dark:border-gray-700/50">
+                <Card className="bg-white dark:bg-gray-800">
                   <CardHeader className="text-center">
                     <CardTitle>Enterprise</CardTitle>
-                    <div className="text-2xl font-bold">Free</div>
-                    <p className="text-sm text-gray-600">Tailored solutions for large organizations with specific requirements.</p>
+                    <div className="text-2xl font-bold text-gray-900 dark:text-white">Custom</div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Tailored for large organizations</p>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="space-y-2 text-sm">
                       <div className="flex items-center space-x-2">
-                        <span className="w-4 h-4 text-green-500">✓</span>
+                        <CheckCircle className="w-4 h-4 text-green-500" />
                         <span>Unlimited messages</span>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <span className="w-4 h-4 text-green-500">✓</span>
+                        <CheckCircle className="w-4 h-4 text-green-500" />
                         <span>All AI models</span>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <span className="w-4 h-4 text-green-500">✓</span>
+                        <CheckCircle className="w-4 h-4 text-green-500" />
                         <span>Dedicated support</span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <span className="w-4 h-4 text-green-500">✓</span>
-                        <span>Custom integrations</span>
                       </div>
                     </div>
                     <Button variant="outline" className="w-full">Contact Sales</Button>

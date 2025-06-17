@@ -11,17 +11,13 @@ const Pricing = () => {
       name: 'Community',
       price: 'Free',
       period: '',
-      description: 'Perfect for trying out CanistChat and small personal projects.',
+      description: 'Perfect for trying out NeoChat and small personal projects.',
       features: [
         '100 messages per month',
         'Basic AI models',
         'Community support',
         'Public agent gallery',
-        'Basic customization',
-        'Premium AI models',
-        'Priority support',
-        'API access',
-        'Custom branding'
+        'Basic customization'
       ],
       limits: {
         messages: '100',
@@ -30,7 +26,7 @@ const Pricing = () => {
         support: 'Community'
       },
       popular: false,
-      buttonText: 'Current Plan',
+      buttonText: 'Get Started',
       buttonVariant: 'outline' as const
     },
     {
@@ -43,11 +39,7 @@ const Pricing = () => {
         'Standard AI models',
         'Email support',
         'Private agents',
-        'Advanced customization',
-        'Premium AI models',
-        'Priority support',
-        'API access',
-        'Custom branding'
+        'Advanced customization'
       ],
       limits: {
         messages: '1,000',
@@ -69,11 +61,7 @@ const Pricing = () => {
         'Premium AI models',
         'Priority support',
         'API access',
-        'Advanced analytics',
-        'Custom integrations',
-        'Team collaboration',
-        'Custom branding',
-        'Dedicated support'
+        'Advanced analytics'
       ],
       limits: {
         messages: '5,000',
@@ -87,7 +75,7 @@ const Pricing = () => {
     },
     {
       name: 'Enterprise',
-      price: 'Free',
+      price: 'Custom',
       period: '',
       description: 'Tailored solutions for large organizations with specific requirements.',
       features: [
@@ -95,10 +83,7 @@ const Pricing = () => {
         'All AI models',
         'Dedicated support',
         'Custom features',
-        'SLA guarantees',
-        'On-premise deployment',
-        'Training & onboarding',
-        'Volume discounts'
+        'SLA guarantees'
       ],
       limits: {
         messages: 'Unlimited',
@@ -113,10 +98,10 @@ const Pricing = () => {
   ];
 
   return (
-    <section id="pricing" className="py-20 px-4 bg-gradient-to-br from-blue-50 via-purple-50/50 to-pink-50/30 dark:from-gray-900 dark:via-blue-900/20 dark:to-purple-900/20">
-      <div className="container mx-auto">
+    <section id="pricing" className="py-24 px-4 bg-white dark:bg-gray-900">
+      <div className="container mx-auto max-w-7xl">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-6">
             Choose Your Plan
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
@@ -128,19 +113,19 @@ const Pricing = () => {
               <Button variant="outline" size="sm" className="text-sm">
                 Yearly
               </Button>
-              <Badge className="bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300">
-                Most Popular
+              <Badge className="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300">
+                Save 20%
               </Badge>
             </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {plans.map((plan, index) => (
             <Card 
               key={plan.name} 
-              className={`relative bg-white/60 dark:bg-gray-800/60 backdrop-blur-lg border-white/20 dark:border-gray-700/50 shadow-lg hover:shadow-xl transition-all duration-300 ${
-                plan.popular ? 'border-2 border-purple-200 dark:border-purple-500/50 scale-105' : ''
+              className={`relative bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl transition-all duration-300 ${
+                plan.popular ? 'border-2 border-purple-500 dark:border-purple-400 scale-105' : ''
               }`}
             >
               {plan.popular && (
@@ -171,10 +156,10 @@ const Pricing = () => {
               <CardContent className="space-y-6">
                 <div className="space-y-4">
                   <div className="text-sm font-semibold text-gray-900 dark:text-white">
-                    WHAT'S INCLUDED
+                    Features
                   </div>
                   <div className="space-y-3">
-                    {plan.features.slice(0, 5).map((feature, featureIndex) => (
+                    {plan.features.map((feature, featureIndex) => (
                       <div key={featureIndex} className="flex items-center space-x-3">
                         <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
                         <span className="text-sm text-gray-600 dark:text-gray-400">
@@ -193,22 +178,22 @@ const Pricing = () => {
                     <div>
                       <span className="text-gray-500">Messages:</span>
                       <br />
-                      <span className="font-medium">{plan.limits.messages}</span>
+                      <span className="font-medium text-gray-900 dark:text-white">{plan.limits.messages}</span>
                     </div>
                     <div>
                       <span className="text-gray-500">Agents:</span>
                       <br />
-                      <span className="font-medium">{plan.limits.agents}</span>
+                      <span className="font-medium text-gray-900 dark:text-white">{plan.limits.agents}</span>
                     </div>
                     <div>
                       <span className="text-gray-500">Storage:</span>
                       <br />
-                      <span className="font-medium">{plan.limits.storage}</span>
+                      <span className="font-medium text-gray-900 dark:text-white">{plan.limits.storage}</span>
                     </div>
                     <div>
                       <span className="text-gray-500">Support:</span>
                       <br />
-                      <span className="font-medium">{plan.limits.support}</span>
+                      <span className="font-medium text-gray-900 dark:text-white">{plan.limits.support}</span>
                     </div>
                   </div>
                 </div>
@@ -217,12 +202,11 @@ const Pricing = () => {
                   variant={plan.buttonVariant}
                   className={`w-full mt-6 ${
                     plan.popular 
-                      ? 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700' 
+                      ? 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white' 
                       : plan.buttonVariant === 'default' 
-                        ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700'
+                        ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white'
                         : ''
                   }`}
-                  disabled={plan.buttonText === 'Current Plan'}
                 >
                   {plan.buttonText}
                 </Button>
@@ -241,7 +225,7 @@ const Pricing = () => {
                 Can I change my plan anytime?
               </h4>
               <p className="text-gray-600 dark:text-gray-400 text-sm">
-                Yes, you can upgrade or downgrade your plan at any time. Changes will be prorated and we'll provide any billing adjustments.
+                Yes, you can upgrade or downgrade your plan at any time. Changes will be prorated.
               </p>
             </div>
             <div className="text-left">
@@ -249,23 +233,7 @@ const Pricing = () => {
                 What happens if I exceed my message limit?
               </h4>
               <p className="text-gray-600 dark:text-gray-400 text-sm">
-                You'll be charged $0.02 per additional message. We'll notify you when approaching your limit so you can upgrade if needed.
-              </p>
-            </div>
-            <div className="text-left">
-              <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
-                Is there a free trial for paid plans?
-              </h4>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">
-                Yes! All paid plans come with a 14-day free trial. No credit card required to start your trial.
-              </p>
-            </div>
-            <div className="text-left">
-              <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
-                How does Enterprise pricing work?
-              </h4>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">
-                Enterprise pricing is customized based on your specific needs, usage volume, and required features. Contact our sales team for a personalized quote.
+                You'll be charged $0.02 per additional message. We'll notify you when approaching your limit.
               </p>
             </div>
           </div>
