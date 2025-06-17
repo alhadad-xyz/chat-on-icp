@@ -14,6 +14,7 @@ import Chat from "./pages/Chat";
 import Profile from "./pages/Profile";
 import EmbedWidget from "./pages/EmbedWidget";
 import Analytics from "./pages/Analytics";
+import Billing from "./pages/Billing";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,6 +33,7 @@ const App: React.FC = () => {
               <Route path="/create-agent" element={<CreateAgent />} />
               <Route path="/my-agents" element={<MyAgents />} />
               <Route path="/chat" element={<Chat />} />
+              <Route path="/billing" element={<Billing />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/embed" element={<EmbedWidget />} />
               <Route path="/analytics" element={<Analytics />} />

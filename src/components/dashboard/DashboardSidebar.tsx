@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Bot, BarChart3, Users, Plus, MessageSquare, Code, User } from 'lucide-react';
+import { Bot, BarChart3, Users, Plus, MessageSquare, Code, User, CreditCard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const DashboardSidebar = () => {
@@ -14,6 +14,7 @@ const DashboardSidebar = () => {
     { icon: Plus, label: 'Create Agent', path: '/create-agent' },
     { icon: MessageSquare, label: 'Chat', path: '/chat' },
     { icon: BarChart3, label: 'Analytics', path: '/analytics' },
+    { icon: CreditCard, label: 'Billing & Payments', path: '/billing' },
     { icon: Code, label: 'Embed Widget', path: '/embed' },
     { icon: User, label: 'Profile', path: '/profile' },
   ];
