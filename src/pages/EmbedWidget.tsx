@@ -1,8 +1,7 @@
-
 import React, { useState } from 'react';
 import DashboardHeader from '@/components/dashboard/DashboardHeader';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -10,12 +9,26 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Copy, Bot, ExternalLink, Check, AlertTriangle, CheckCircle2 } from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
+import { Copy, Bot, ExternalLink, Check, AlertTriangle, CheckCircle2, Sun, Moon, Globe, MessageSquare, X, Send, CheckCircle, Smartphone, Monitor, Tablet } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Checkbox } from '@/components/ui/checkbox';
 
 const EmbedWidget = () => {
   const { toast } = useToast();
+  const [activeTab, setActiveTab] = useState('generator');
+  const [selectedAgent, setSelectedAgent] = useState('customer-support');
+  const [selectedPlatform, setSelectedPlatform] = useState('html');
+  const [theme, setTheme] = useState('light');
+  const [position, setPosition] = useState('bottom-right');
+  const [primaryColor, setPrimaryColor] = useState('#6366f1');
+  const [showBranding, setShowBranding] = useState(true);
+  const [enableSound, setEnableSound] = useState(true);
+  const [autoOpen, setAutoOpen] = useState(false);
+  const [showTyping, setShowTyping] = useState(true);
+  const [welcomeMessage, setWelcomeMessage] = useState('Hello! I\'m Test Agent 1. How can I help you today?');
+  const [placeholderText, setPlaceholderText] = useState('Type your message...');
+
   const [config, setConfig] = useState({
     width: '400px',
     height: '600px',
@@ -245,32 +258,32 @@ add_shortcode('canistchat', 'canistchat_shortcode');`;
                             <Label htmlFor="show-branding" className="text-sm font-normal">Show Branding</Label>
                             <Switch
                               id="show-branding"
-                              checked={showBranding === 'true' || showBranding === true}
-                              onCheckedChange={(checked) => setShowBranding(checked.toString())}
+                              checked={showBranding}
+                              onCheckedChange={setShowBranding}
                             />
                           </div>
                           <div className="flex items-center justify-between">
                             <Label htmlFor="enable-sound" className="text-sm font-normal">Enable Sound</Label>
                             <Switch
                               id="enable-sound"
-                              checked={enableSound === 'true' || enableSound === true}
-                              onCheckedChange={(checked) => setEnableSound(checked.toString())}
+                              checked={enableSound}
+                              onCheckedChange={setEnableSound}
                             />
                           </div>
                           <div className="flex items-center justify-between">
                             <Label htmlFor="auto-open" className="text-sm font-normal">Auto Open</Label>
                             <Switch
                               id="auto-open"
-                              checked={autoOpen === 'true' || autoOpen === true}
-                              onCheckedChange={(checked) => setAutoOpen(checked.toString())}
+                              checked={autoOpen}
+                              onCheckedChange={setAutoOpen}
                             />
                           </div>
                           <div className="flex items-center justify-between">
                             <Label htmlFor="show-typing" className="text-sm font-normal">Show Typing Indicator</Label>
                             <Switch
                               id="show-typing"
-                              checked={showTyping === 'true' || showTyping === true}
-                              onCheckedChange={(checked) => setShowTyping(checked.toString())}
+                              checked={showTyping}
+                              onCheckedChange={setShowTyping}
                             />
                           </div>
                         </div>
