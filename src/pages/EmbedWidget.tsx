@@ -137,14 +137,12 @@ add_shortcode('canistchat', 'canistchat_shortcode');`;
           <div className="max-w-7xl mx-auto">
             <div className="mb-8">
               <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-2">
-                Embed Widget Generator
+                Embed Widget
               </h1>
-              <p className="text-gray-600 dark:text-gray-400">
-                Generate embed code and integration instructions for <strong>{config.agentName}</strong>
-              </p>
+              <p className="text-gray-600 dark:text-gray-400">Generate and customize your chat widget for seamless integration.</p>
             </div>
 
-            <Tabs defaultValue="generator" className="space-y-6">
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
               <TabsList className="grid w-full grid-cols-3">
                 <TabsTrigger value="generator">Generator</TabsTrigger>
                 <TabsTrigger value="instructions">Instructions</TabsTrigger>
@@ -154,393 +152,421 @@ add_shortcode('canistchat', 'canistchat_shortcode');`;
               <TabsContent value="generator" className="space-y-6">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                   {/* Configuration Panel */}
-                  <div className="space-y-6">
-                    <Card>
-                      <CardHeader>
-                        <CardTitle>Customization Options</CardTitle>
-                      </CardHeader>
-                      <CardContent className="space-y-6">
-                        <div className="grid grid-cols-2 gap-4">
-                          <div>
-                            <Label htmlFor="width">Width</Label>
-                            <Input
-                              id="width"
-                              value={config.width}
-                              onChange={(e) => setConfig({...config, width: e.target.value})}
-                              placeholder="400px"
-                            />
-                          </div>
-                          <div>
-                            <Label htmlFor="height">Height</Label>
-                            <Input
-                              id="height"
-                              value={config.height}
-                              onChange={(e) => setConfig({...config, height: e.target.value})}
-                              placeholder="600px"
-                            />
-                          </div>
-                        </div>
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Widget Configuration</CardTitle>
+                      <CardDescription>Customize your chat widget appearance and behavior</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      {/* Agent Selection */}
+                      <div className="space-y-2">
+                        <Label htmlFor="agent-select">Select Agent</Label>
+                        <Select value={selectedAgent} onValueChange={setSelectedAgent}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Choose an agent" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="customer-support">Customer Support Bot</SelectItem>
+                            <SelectItem value="sales-assistant">Sales Assistant</SelectItem>
+                            <SelectItem value="technical-support">Technical Support</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
 
-                        <div className="grid grid-cols-2 gap-4">
-                          <div>
-                            <Label htmlFor="theme">Theme</Label>
-                            <Select value={config.theme} onValueChange={(value) => setConfig({...config, theme: value})}>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select theme" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="light">Light</SelectItem>
-                                <SelectItem value="dark">Dark</SelectItem>
-                                <SelectItem value="auto">Auto</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </div>
-                          <div>
-                            <Label htmlFor="position">Position</Label>
-                            <Select value={config.position} onValueChange={(value) => setConfig({...config, position: value})}>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select position" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="bottom-right">Bottom Right</SelectItem>
-                                <SelectItem value="bottom-left">Bottom Left</SelectItem>
-                                <SelectItem value="top-right">Top Right</SelectItem>
-                                <SelectItem value="top-left">Top Left</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </div>
+                      {/* Theme Selection */}
+                      <div className="space-y-2">
+                        <Label>Theme</Label>
+                        <div className="grid grid-cols-2 gap-3">
+                          <Button
+                            variant={theme === 'light' ? 'default' : 'outline'}
+                            onClick={() => setTheme('light')}
+                            className="justify-start"
+                          >
+                            <Sun className="w-4 h-4 mr-2" />
+                            Light
+                          </Button>
+                          <Button
+                            variant={theme === 'dark' ? 'default' : 'outline'}
+                            onClick={() => setTheme('dark')}
+                            className="justify-start"
+                          >
+                            <Moon className="w-4 h-4 mr-2" />
+                            Dark
+                          </Button>
                         </div>
+                      </div>
 
-                        <div>
-                          <Label htmlFor="primaryColor">Primary Color</Label>
-                          <div className="flex space-x-2">
-                            <Input
-                              id="primaryColor"
-                              type="color"
-                              value={config.primaryColor}
-                              onChange={(e) => setConfig({...config, primaryColor: e.target.value})}
-                              className="w-16 h-10 p-1 border-2"
-                            />
-                            <Input
-                              value={config.primaryColor}
-                              onChange={(e) => setConfig({...config, primaryColor: e.target.value})}
-                              className="flex-1"
-                            />
-                          </div>
+                      {/* Position */}
+                      <div className="space-y-2">
+                        <Label>Position</Label>
+                        <div className="grid grid-cols-2 gap-3">
+                          <Button
+                            variant={position === 'bottom-right' ? 'default' : 'outline'}
+                            onClick={() => setPosition('bottom-right')}
+                            className="justify-start"
+                          >
+                            Bottom Right
+                          </Button>
+                          <Button
+                            variant={position === 'bottom-left' ? 'default' : 'outline'}
+                            onClick={() => setPosition('bottom-left')}
+                            className="justify-start"
+                          >
+                            Bottom Left
+                          </Button>
                         </div>
+                      </div>
 
-                        <div>
-                          <Label htmlFor="borderRadius">Border Radius</Label>
-                          <Input
-                            id="borderRadius"
-                            value={config.borderRadius}
-                            onChange={(e) => setConfig({...config, borderRadius: e.target.value})}
-                            placeholder="12px"
-                          />
-                        </div>
-
-                        <div>
-                          <Label htmlFor="welcomeMessage">Welcome Message</Label>
-                          <Textarea
-                            id="welcomeMessage"
-                            value={config.welcomeMessage}
-                            onChange={(e) => setConfig({...config, welcomeMessage: e.target.value})}
-                            placeholder="Hello! I'm Test Agent 1. How can I help you today?"
-                            className="min-h-[60px]"
-                          />
-                        </div>
-
-                        <div>
-                          <Label htmlFor="placeholder">Input Placeholder</Label>
-                          <Input
-                            id="placeholder"
-                            value={config.placeholder}
-                            onChange={(e) => setConfig({...config, placeholder: e.target.value})}
-                            placeholder="Type your message..."
-                          />
-                        </div>
-
-                        <div className="grid grid-cols-2 gap-4">
-                          <div className="flex items-center space-x-2">
-                            <Checkbox
-                              id="showHeader"
-                              checked={config.showHeader}
-                              onCheckedChange={(checked) => setConfig({...config, showHeader: checked})}
-                            />
-                            <Label htmlFor="showHeader">Show Header</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Checkbox
-                              id="showPoweredBy"
-                              checked={config.showPoweredBy}
-                              onCheckedChange={(checked) => setConfig({...config, showPoweredBy: checked})}
-                            />
-                            <Label htmlFor="showPoweredBy">Show "Powered by"</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Checkbox
-                              id="minimizable"
-                              checked={config.minimizable}
-                              onCheckedChange={(checked) => setConfig({...config, minimizable: checked})}
-                            />
-                            <Label htmlFor="minimizable">Minimizable</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Checkbox
-                              id="autoOpen"
-                              checked={config.autoOpen}
-                              onCheckedChange={(checked) => setConfig({...config, autoOpen: checked})}
-                            />
-                            <Label htmlFor="autoOpen">Auto Open</Label>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-
-                    {/* Enterprise Badge */}
-                    <Card>
-                      <CardContent className="p-4">
+                      {/* Primary Color */}
+                      <div className="space-y-2">
+                        <Label htmlFor="primary-color">Primary Color</Label>
                         <div className="flex items-center space-x-3">
-                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                          <Badge variant="secondary" className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-                            Enterprise Ready
-                          </Badge>
+                          <Input
+                            id="primary-color"
+                            type="color"
+                            value={primaryColor}
+                            onChange={(e) => setPrimaryColor(e.target.value)}
+                            className="w-12 h-10 p-1 border-2"
+                          />
+                          <Input
+                            value={primaryColor}
+                            onChange={(e) => setPrimaryColor(e.target.value)}
+                            placeholder="#3B82F6"
+                            className="flex-1"
+                          />
                         </div>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
-                          Advanced LLM integration with intelligent load balancing
-                        </p>
-                      </CardContent>
-                    </Card>
-                  </div>
+                      </div>
 
-                  {/* Preview and Code Generation */}
-                  <div className="space-y-6">
-                    <Card>
-                      <CardHeader>
-                        <CardTitle>Preview</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 min-h-[400px] flex items-center justify-center">
-                          <div className="bg-white dark:bg-gray-700 rounded-lg shadow-lg w-80 h-96 flex flex-col">
-                            {config.showHeader && (
-                              <div 
-                                className="flex items-center p-4 rounded-t-lg text-white"
-                                style={{ backgroundColor: config.primaryColor }}
-                              >
-                                <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center mr-3">
-                                  <Bot className="w-4 h-4" />
+                      {/* Widget Options */}
+                      <div className="space-y-4">
+                        <Label>Widget Options</Label>
+                        <div className="space-y-3">
+                          <div className="flex items-center justify-between">
+                            <Label htmlFor="show-branding" className="text-sm font-normal">Show Branding</Label>
+                            <Switch
+                              id="show-branding"
+                              checked={showBranding === 'true' || showBranding === true}
+                              onCheckedChange={(checked) => setShowBranding(checked.toString())}
+                            />
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <Label htmlFor="enable-sound" className="text-sm font-normal">Enable Sound</Label>
+                            <Switch
+                              id="enable-sound"
+                              checked={enableSound === 'true' || enableSound === true}
+                              onCheckedChange={(checked) => setEnableSound(checked.toString())}
+                            />
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <Label htmlFor="auto-open" className="text-sm font-normal">Auto Open</Label>
+                            <Switch
+                              id="auto-open"
+                              checked={autoOpen === 'true' || autoOpen === true}
+                              onCheckedChange={(checked) => setAutoOpen(checked.toString())}
+                            />
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <Label htmlFor="show-typing" className="text-sm font-normal">Show Typing Indicator</Label>
+                            <Switch
+                              id="show-typing"
+                              checked={showTyping === 'true' || showTyping === true}
+                              onCheckedChange={(checked) => setShowTyping(checked.toString())}
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Welcome Message */}
+                      <div className="space-y-2">
+                        <Label htmlFor="welcome-message">Welcome Message</Label>
+                        <Input
+                          id="welcome-message"
+                          value={welcomeMessage}
+                          onChange={(e) => setWelcomeMessage(e.target.value)}
+                          placeholder="Hi! How can I help you today?"
+                        />
+                      </div>
+
+                      {/* Placeholder Text */}
+                      <div className="space-y-2">
+                        <Label htmlFor="placeholder-text">Placeholder Text</Label>
+                        <Input
+                          id="placeholder-text"
+                          value={placeholderText}
+                          onChange={(e) => setPlaceholderText(e.target.value)}
+                          placeholder="Type your message..."
+                        />
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Preview Panel */}
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Live Preview</CardTitle>
+                      <CardDescription>See how your widget will look on your website</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-6 min-h-[400px] relative">
+                        <div className="text-center text-gray-500 dark:text-gray-400 mb-4">
+                          <Globe className="w-8 h-8 mx-auto mb-2" />
+                          Your Website Preview
+                        </div>
+                        
+                        {/* Mock Website Content */}
+                        <div className="bg-white dark:bg-gray-700 rounded p-4 mb-4">
+                          <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded mb-2"></div>
+                          <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded w-3/4"></div>
+                        </div>
+
+                        {/* Chat Widget */}
+                        <div 
+                          className={`fixed ${position === 'bottom-right' ? 'bottom-6 right-6' : 'bottom-6 left-6'} z-50`}
+                          style={{ position: 'absolute' }}
+                        >
+                          <div 
+                            className="w-80 h-96 bg-white dark:bg-gray-800 rounded-lg shadow-2xl border border-gray-200 dark:border-gray-700 flex flex-col"
+                            style={{ borderTopColor: primaryColor }}
+                          >
+                            {/* Header */}
+                            <div 
+                              className="p-4 text-white rounded-t-lg flex items-center justify-between"
+                              style={{ backgroundColor: primaryColor }}
+                            >
+                              <div className="flex items-center space-x-2">
+                                <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                                  <MessageSquare className="w-4 h-4" />
                                 </div>
                                 <div>
-                                  <div className="font-medium">{config.agentName}</div>
-                                  <div className="text-xs opacity-80">AI Assistant</div>
+                                  <div className="font-semibold text-sm">Chat Support</div>
+                                  <div className="text-xs opacity-90">Online</div>
                                 </div>
                               </div>
-                            )}
-                            <div className="flex-1 p-4 space-y-3">
-                              <div className="bg-gray-100 dark:bg-gray-600 rounded-lg p-3 max-w-xs">
-                                <p className="text-sm">{config.welcomeMessage}</p>
-                                <span className="text-xs text-gray-500 dark:text-gray-400">03:47 PM</span>
+                              <Button variant="ghost" size="icon" className="text-white hover:bg-white/20">
+                                <X className="w-4 h-4" />
+                              </Button>
+                            </div>
+
+                            {/* Messages */}
+                            <div className="flex-1 p-4 space-y-3 overflow-y-auto">
+                              <div className="flex items-start space-x-2">
+                                <div className="w-6 h-6 bg-gray-300 rounded-full flex-shrink-0"></div>
+                                <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-2 text-sm max-w-xs">
+                                  {welcomeMessage}
+                                </div>
                               </div>
                             </div>
-                            <div className="p-4 border-t border-gray-200 dark:border-gray-600">
-                              <div className="flex space-x-2">
+
+                            {/* Input */}
+                            <div className="p-4 border-t border-gray-200 dark:border-gray-700">
+                              <div className="flex items-center space-x-2">
                                 <Input 
-                                  placeholder={config.placeholder} 
+                                  placeholder={placeholderText}
                                   className="flex-1 text-sm"
-                                  disabled
                                 />
-                                <Button size="sm" style={{ backgroundColor: config.primaryColor }}>
-                                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
-                                  </svg>
+                                <Button size="icon" style={{ backgroundColor: primaryColor }}>
+                                  <Send className="w-4 h-4" />
                                 </Button>
                               </div>
                             </div>
+
+                            {showBranding && (
+                              <div className="px-4 pb-2 text-center">
+                                <div className="text-xs text-gray-500 dark:text-gray-400">
+                                  Powered by <span className="font-semibold text-blue-600">NeoChat</span>
+                                </div>
+                              </div>
+                            )}
                           </div>
                         </div>
-                        <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-4">
-                          Chat interface preview
-                        </p>
-                      </CardContent>
-                    </Card>
-
-                    <Card>
-                      <CardHeader>
-                        <CardTitle className="flex items-center justify-between">
-                          Generated Embed Code
-                          <Button onClick={() => copyToClipboard(generateEmbedCode())} size="sm" variant="outline">
-                            <Copy className="w-4 h-4 mr-2" />
-                            Copy HTML
-                          </Button>
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <Textarea
-                          value={generateEmbedCode()}
-                          readOnly
-                          className="font-mono text-sm bg-gray-50 dark:bg-gray-800 min-h-[200px] resize-none"
-                        />
-                      </CardContent>
-                    </Card>
-                  </div>
+                      </div>
+                    </CardContent>
+                  </Card>
                 </div>
+
+                {/* Generated Code */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Generated Code</CardTitle>
+                    <CardDescription>Copy and paste this code into your HTML</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="relative">
+                      <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg text-sm overflow-x-auto">
+                        <code>{generateEmbedCode()}</code>
+                      </pre>
+                      <Button
+                        size="sm"
+                        className="absolute top-2 right-2"
+                        onClick={() => {
+                          navigator.clipboard.writeText(generateEmbedCode());
+                          // You could add a toast notification here
+                        }}
+                      >
+                        <Copy className="w-4 h-4 mr-1" />
+                        Copy
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
               </TabsContent>
 
               <TabsContent value="instructions" className="space-y-6">
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                  <Card className="lg:col-span-3">
-                    <CardHeader>
-                      <div className="flex items-center space-x-2">
-                        <CheckCircle2 className="w-5 h-5 text-green-600" />
-                        <CardTitle>Quick Start Guide</CardTitle>
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="flex items-start space-x-3 p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
-                          <div className="w-6 h-6 bg-green-600 text-white rounded-full flex items-center justify-center text-sm font-bold">1</div>
-                          <div>
-                            <h4 className="font-medium text-green-800 dark:text-green-200">Copy the embed code</h4>
-                            <p className="text-sm text-green-600 dark:text-green-300">from the Generator tab above</p>
-                          </div>
-                        </div>
-                        <div className="flex items-start space-x-3 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                          <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">2</div>
-                          <div>
-                            <h4 className="font-medium text-blue-800 dark:text-blue-200">Paste it into your website's HTML</h4>
-                            <p className="text-sm text-blue-600 dark:text-blue-300">where you want the chat widget to appear</p>
-                          </div>
-                        </div>
-                        <div className="flex items-start space-x-3 p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
-                          <div className="w-6 h-6 bg-purple-600 text-white rounded-full flex items-center justify-center text-sm font-bold">3</div>
-                          <div>
-                            <h4 className="font-medium text-purple-800 dark:text-purple-200">Save and publish</h4>
-                            <p className="text-sm text-purple-600 dark:text-purple-300">your page - the widget will automatically load</p>
-                          </div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  {/* Platform-Specific Instructions */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                   <Card>
                     <CardHeader>
-                      <CardTitle className="flex items-center space-x-2">
-                        <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
-                          <span className="text-white text-sm font-bold">W</span>
-                        </div>
-                        <span>WordPress</span>
-                      </CardTitle>
+                      <CardTitle>Platform Instructions</CardTitle>
+                      <CardDescription>Choose your platform for specific integration steps</CardDescription>
                     </CardHeader>
-                    <CardContent className="space-y-4">
-                      <ol className="list-decimal list-inside space-y-2 text-sm">
-                        <li>Go to your WordPress admin panel</li>
-                        <li>Edit the page/post where you want the widget</li>
-                        <li>Switch to "Text" or "HTML" mode</li>
-                        <li>Paste the embed code</li>
-                        <li>Update/publish the page</li>
-                      </ol>
-                      <Button 
-                        variant="outline" 
-                        size="sm" 
-                        onClick={() => copyToClipboard(generateWordPressCode())}
-                        className="w-full"
-                      >
-                        <Copy className="w-4 h-4 mr-2" />
-                        Copy WordPress Code
-                      </Button>
+                    <CardContent>
+                      <Tabs value={selectedPlatform} onValueChange={setSelectedPlatform}>
+                        <TabsList className="grid w-full grid-cols-4">
+                          <TabsTrigger value="html">HTML</TabsTrigger>
+                          <TabsTrigger value="wordpress">WordPress</TabsTrigger>
+                          <TabsTrigger value="shopify">Shopify</TabsTrigger>
+                          <TabsTrigger value="react">React</TabsTrigger>
+                        </TabsList>
+
+                        <TabsContent value="html" className="space-y-4 mt-6">
+                          <div className="space-y-4">
+                            <div className="flex items-start space-x-3">
+                              <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0 mt-1">1</div>
+                              <div>
+                                <h4 className="font-semibold">Copy the embed code</h4>
+                                <p className="text-sm text-gray-600 dark:text-gray-400">Go to the Generator tab and copy the generated code.</p>
+                              </div>
+                            </div>
+                            <div className="flex items-start space-x-3">
+                              <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0 mt-1">2</div>
+                              <div>
+                                <h4 className="font-semibold">Paste before closing body tag</h4>
+                                <p className="text-sm text-gray-600 dark:text-gray-400">Add the code just before the &lt;/body&gt; tag in your HTML.</p>
+                              </div>
+                            </div>
+                            <div className="flex items-start space-x-3">
+                              <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0 mt-1">3</div>
+                              <div>
+                                <h4 className="font-semibold">Test the widget</h4>
+                                <p className="text-sm text-gray-600 dark:text-gray-400">Save your changes and test the chat widget on your website.</p>
+                              </div>
+                            </div>
+                          </div>
+                        </TabsContent>
+
+                        <TabsContent value="wordpress" className="space-y-4 mt-6">
+                          <div className="space-y-4">
+                            <div className="flex items-start space-x-3">
+                              <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0 mt-1">1</div>
+                              <div>
+                                <h4 className="font-semibold">Access WordPress Admin</h4>
+                                <p className="text-sm text-gray-600 dark:text-gray-400">Log in to your WordPress admin dashboard.</p>
+                              </div>
+                            </div>
+                            <div className="flex items-start space-x-3">
+                              <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0 mt-1">2</div>
+                              <div>
+                                <h4 className="font-semibold">Go to Appearance → Theme Editor</h4>
+                                <p className="text-sm text-gray-600 dark:text-gray-400">Navigate to the theme editor or use a plugin like "Insert Headers and Footers".</p>
+                              </div>
+                            </div>
+                            <div className="flex items-start space-x-3">
+                              <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0 mt-1">3</div>
+                              <div>
+                                <h4 className="font-semibold">Add code to footer</h4>
+                                <p className="text-sm text-gray-600 dark:text-gray-400">Paste the embed code in the footer section or before &lt;/body&gt; tag.</p>
+                              </div>
+                            </div>
+                          </div>
+                        </TabsContent>
+
+                        <TabsContent value="shopify" className="space-y-4 mt-6">
+                          <div className="space-y-4">
+                            <div className="flex items-start space-x-3">
+                              <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0 mt-1">1</div>
+                              <div>
+                                <h4 className="font-semibold">Go to Online Store → Themes</h4>
+                                <p className="text-sm text-gray-600 dark:text-gray-400">Access your Shopify admin and navigate to themes.</p>
+                              </div>
+                            </div>
+                            <div className="flex items-start space-x-3">
+                              <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0 mt-1">2</div>
+                              <div>
+                                <h4 className="font-semibold">Edit Code</h4>
+                                <p className="text-sm text-gray-600 dark:text-gray-400">Click "Actions" → "Edit code" for your active theme.</p>
+                              </div>
+                            </div>
+                            <div className="flex items-start space-x-3">
+                              <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0 mt-1">3</div>
+                              <div>
+                                <h4 className="font-semibold">Edit theme.liquid</h4>
+                                <p className="text-sm text-gray-600 dark:text-gray-400">Open theme.liquid and paste the code before &lt;/body&gt; tag.</p>
+                              </div>
+                            </div>
+                          </div>
+                        </TabsContent>
+
+                        <TabsContent value="react" className="space-y-4 mt-6">
+                          <div className="space-y-4">
+                            <div className="flex items-start space-x-3">
+                              <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0 mt-1">1</div>
+                              <div>
+                                <h4 className="font-semibold">Install via npm</h4>
+                                <p className="text-sm text-gray-600 dark:text-gray-400">Run: npm install @neochat/react-widget</p>
+                              </div>
+                            </div>
+                            <div className="flex items-start space-x-3">
+                              <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0 mt-1">2</div>
+                              <div>
+                                <h4 className="font-semibold">Import and use</h4>
+                                <p className="text-sm text-gray-600 dark:text-gray-400">Import the component and add it to your app with your configuration.</p>
+                              </div>
+                            </div>
+                            <div className="flex items-start space-x-3">
+                              <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0 mt-1">3</div>
+                              <div>
+                                <h4 className="font-semibold">Configure props</h4>
+                                <p className="text-sm text-gray-600 dark:text-gray-400">Pass your widget configuration as props to customize appearance.</p>
+                              </div>
+                            </div>
+                          </div>
+                        </TabsContent>
+                      </Tabs>
                     </CardContent>
                   </Card>
 
                   <Card>
                     <CardHeader>
-                      <CardTitle className="flex items-center space-x-2">
-                        <div className="w-8 h-8 bg-gray-800 rounded flex items-center justify-center">
-                          <span className="text-white text-sm font-bold">S</span>
-                        </div>
-                        <span>Shopify</span>
-                      </CardTitle>
+                      <CardTitle>Best Practices</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                      <ol className="list-decimal list-inside space-y-2 text-sm">
-                        <li>Go to Online Store → Themes</li>
-                        <li>Click "Actions" → "Edit code"</li>
-                        <li>Find your theme.liquid file</li>
-                        <li>Paste the code before &lt;/body&gt;</li>
-                        <li>Save the file</li>
-                      </ol>
-                    </CardContent>
-                  </Card>
-
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="flex items-center space-x-2">
-                        <div className="w-8 h-8 bg-pink-600 rounded flex items-center justify-center">
-                          <span className="text-white text-sm font-bold">S</span>
-                        </div>
-                        <span>Squarespace</span>
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <ol className="list-decimal list-inside space-y-2 text-sm">
-                        <li>Go to Settings → Advanced → Code Injection</li>
-                        <li>Paste the code in "Footer"</li>
-                        <li>Or use a Code Block on specific pages</li>
-                        <li>Save and publish</li>
-                      </ol>
-                    </CardContent>
-                  </Card>
-
-                  {/* Advanced Configuration */}
-                  <Card className="lg:col-span-3">
-                    <CardHeader>
-                      <CardTitle>Advanced Configuration</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                          <h4 className="font-medium mb-3">Customization Options</h4>
-                          <div className="space-y-2 text-sm">
-                            <div><code className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-blue-600">inline</code> - Embedded in page content</div>
-                            <div><code className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-blue-600">bottom-right</code> - Floating bottom right</div>
-                            <div><code className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-blue-600">bottom-left</code> - Floating bottom left</div>
-                            <div><code className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-blue-600">top-right</code> - Floating top right</div>
-                            <div><code className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-blue-600">top-left</code> - Floating top left</div>
+                      <div className="space-y-3">
+                        <div className="flex items-start space-x-2">
+                          <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                          <div>
+                            <h4 className="font-medium">Test on mobile devices</h4>
+                            <p className="text-sm text-gray-600 dark:text-gray-400">Ensure the widget works well on all screen sizes.</p>
                           </div>
                         </div>
-                        <div>
-                          <h4 className="font-medium mb-3">Theme Options</h4>
-                          <div className="space-y-2 text-sm">
-                            <div><code className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-blue-600">light</code> - Light theme</div>
-                            <div><code className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-blue-600">dark</code> - Dark theme</div>
-                            <div><code className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-blue-600">auto</code> - Matches system preference</div>
+                        <div className="flex items-start space-x-2">
+                          <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                          <div>
+                            <h4 className="font-medium">Choose appropriate colors</h4>
+                            <p className="text-sm text-gray-600 dark:text-gray-400">Match your brand colors for better integration.</p>
                           </div>
                         </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  {/* Troubleshooting */}
-                  <Card className="lg:col-span-3">
-                    <CardHeader>
-                      <CardTitle className="flex items-center space-x-2">
-                        <AlertTriangle className="w-5 h-5 text-yellow-600" />
-                        <span>Troubleshooting</span>
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
-                          <h4 className="font-medium text-yellow-800 dark:text-yellow-200 mb-2">Widget not appearing?</h4>
-                          <p className="text-sm text-yellow-700 dark:text-yellow-300">Check that the container div ID matches the agent ID in the script.</p>
+                        <div className="flex items-start space-x-2">
+                          <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                          <div>
+                            <h4 className="font-medium">Customize welcome message</h4>
+                            <p className="text-sm text-gray-600 dark:text-gray-400">Create a friendly, relevant greeting for your visitors.</p>
+                          </div>
                         </div>
-                        <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
-                          <h4 className="font-medium text-yellow-800 dark:text-yellow-200 mb-2">Widget not loading?</h4>
-                          <p className="text-sm text-yellow-700 dark:text-yellow-300">Ensure your website allows iframe content and check browser console for errors.</p>
-                        </div>
-                        <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
-                          <h4 className="font-medium text-yellow-800 dark:text-yellow-200 mb-2">Styling issues?</h4>
-                          <p className="text-sm text-yellow-700 dark:text-yellow-300">The widget uses iframe isolation, so your site's CSS won't affect it. Customize using the options above.</p>
+                        <div className="flex items-start space-x-2">
+                          <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                          <div>
+                            <h4 className="font-medium">Position strategically</h4>
+                            <p className="text-sm text-gray-600 dark:text-gray-400">Place the widget where it's visible but not intrusive.</p>
+                          </div>
                         </div>
                       </div>
                     </CardContent>
@@ -549,103 +575,109 @@ add_shortcode('canistchat', 'canistchat_shortcode');`;
               </TabsContent>
 
               <TabsContent value="testing" className="space-y-6">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <div className="space-y-6">
-                    <Card>
-                      <CardHeader>
-                        <CardTitle>Test Your Widget</CardTitle>
-                      </CardHeader>
-                      <CardContent className="space-y-4">
-                        <div className="flex space-x-2">
-                          <Button variant="default" className="flex-1">
-                            Preview Mode
-                          </Button>
-                          <Button variant="outline" className="flex-1">
-                            <ExternalLink className="w-4 h-4 mr-2" />
-                            Live Test
-                          </Button>
-                        </div>
-                        <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
-                          <Button variant="outline" className="w-full text-green-700 dark:text-green-300 border-green-300 hover:bg-green-100 dark:hover:bg-green-900/40">
-                            <ExternalLink className="w-4 h-4 mr-2" />
-                            Open Widget in New Window
-                          </Button>
-                          <p className="text-sm text-green-600 dark:text-green-400 mt-2">
-                            This will open your widget in a new window so you can test the full functionality, including chat interactions and responsiveness.
-                          </p>
-                        </div>
-                      </CardContent>
-                    </Card>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Pre-Launch Checklist</CardTitle>
+                      <CardDescription>Complete these steps before going live</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-4">
+                        {[
+                          { id: 'widget-appears', label: 'Widget appears on your website', checked: false },
+                          { id: 'responsive-design', label: 'Widget is responsive on mobile devices', checked: false },
+                          { id: 'chat-functionality', label: 'Chat functionality works correctly', checked: false },
+                          { id: 'welcome-message', label: 'Welcome message displays properly', checked: false },
+                          { id: 'brand-colors', label: 'Colors match your brand', checked: false },
+                          { id: 'typing-indicator', label: 'Typing indicator works (if enabled)', checked: false },
+                          { id: 'sound-notifications', label: 'Sound notifications work (if enabled)', checked: false },
+                          { id: 'agent-responses', label: 'Agent responds appropriately', checked: false }
+                        ].map((item) => (
+                          <div key={item.id} className="flex items-center space-x-3">
+                            <Checkbox 
+                              id={item.id}
+                              defaultChecked={item.checked}
+                            />
+                            <Label htmlFor={item.id} className="text-sm font-normal">
+                              {item.label}
+                            </Label>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
 
-                    <Card>
-                      <CardHeader>
-                        <CardTitle>Testing Checklist</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="space-y-3">
-                          {checklist.map((item) => (
-                            <div key={item.id} className="flex items-center space-x-3">
-                              <Checkbox
-                                id={item.id}
-                                checked={item.checked}
-                                onCheckedChange={(checked) => handleChecklistChange(item.id, checked)}
-                              />
-                              <Label htmlFor={item.id} className="text-sm">
-                                {item.label}
-                              </Label>
-                            </div>
-                          ))}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </div>
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Testing Tools</CardTitle>
+                      <CardDescription>Use these tools to test your widget</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div className="space-y-3">
+                        <Button variant="outline" className="w-full justify-start">
+                          <Smartphone className="w-4 h-4 mr-2" />
+                          Mobile Preview
+                        </Button>
+                        <Button variant="outline" className="w-full justify-start">
+                          <Monitor className="w-4 h-4 mr-2" />
+                          Desktop Preview
+                        </Button>
+                        <Button variant="outline" className="w-full justify-start">
+                          <Tablet className="w-4 h-4 mr-2" />
+                          Tablet Preview
+                        </Button>
+                        <Button variant="outline" className="w-full justify-start">
+                          <MessageSquare className="w-4 h-4 mr-2" />
+                          Test Chat Flow
+                        </Button>
+                      </div>
 
-                  <div className="space-y-6">
-                    <Card>
-                      <CardHeader>
-                        <CardTitle>Widget Preview</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 min-h-[500px] flex items-center justify-center">
-                          <div className="bg-white dark:bg-gray-700 rounded-lg shadow-lg w-80 h-96 flex flex-col">
-                            <div 
-                              className="flex items-center p-4 rounded-t-lg text-white"
-                              style={{ backgroundColor: config.primaryColor }}
-                            >
-                              <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center mr-3">
-                                <span className="text-sm font-bold">T</span>
-                              </div>
-                              <div>
-                                <div className="font-medium">{config.agentName}</div>
-                                <div className="text-xs opacity-80">Test</div>
-                              </div>
-                            </div>
-                            <div className="flex-1 p-4 space-y-3">
-                              <div className="bg-gray-100 dark:bg-gray-600 rounded-lg p-3 max-w-xs">
-                                <p className="text-sm">{config.welcomeMessage}</p>
-                                <span className="text-xs text-gray-500 dark:text-gray-400">03:47 PM</span>
-                              </div>
-                            </div>
-                            <div className="p-4 border-t border-gray-200 dark:border-gray-600">
-                              <div className="flex space-x-2">
-                                <Input 
-                                  placeholder={config.placeholder} 
-                                  className="flex-1 text-sm"
-                                  disabled
-                                />
-                                <Button size="sm" style={{ backgroundColor: config.primaryColor }}>
-                                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
-                                  </svg>
-                                </Button>
-                              </div>
-                            </div>
+                      <div className="pt-4 border-t">
+                        <h4 className="font-medium mb-3">Browser Compatibility</h4>
+                        <div className="grid grid-cols-2 gap-2 text-sm">
+                          <div className="flex items-center space-x-2">
+                            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                            <span>Chrome 80+</span>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                            <span>Firefox 75+</span>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                            <span>Safari 13+</span>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                            <span>Edge 80+</span>
                           </div>
                         </div>
-                      </CardContent>
-                    </Card>
-                  </div>
+                      </div>
+                    </CardContent>
+                  </Card>
                 </div>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Common Issues & Solutions</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      <div className="border-l-4 border-yellow-500 pl-4 py-2">
+                        <h4 className="font-medium text-yellow-800 dark:text-yellow-200">Widget not appearing</h4>
+                        <p className="text-sm text-yellow-700 dark:text-yellow-300">Check if the script is placed before the closing &lt;/body&gt; tag and ensure there are no JavaScript errors in the console.</p>
+                      </div>
+                      <div className="border-l-4 border-blue-500 pl-4 py-2">
+                        <h4 className="font-medium text-blue-800 dark:text-blue-200">Chat not working</h4>
+                        <p className="text-sm text-blue-700 dark:text-blue-300">Verify your agent ID is correct and that your agent is published and active.</p>
+                      </div>
+                      <div className="border-l-4 border-red-500 pl-4 py-2">
+                        <h4 className="font-medium text-red-800 dark:text-red-200">Mobile responsiveness issues</h4>
+                        <p className="text-sm text-red-700 dark:text-red-300">Test on actual devices and adjust the widget position if it interferes with your site's mobile navigation.</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
               </TabsContent>
             </Tabs>
           </div>
